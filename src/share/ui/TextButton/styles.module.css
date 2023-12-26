@@ -1,0 +1,12 @@
+.button {
+  border: none;
+  background-color: transparent;
+  font-size: small;
+  /* border-radius: 5px; */
+  /* padding: 6px 9px 6px 9px; */
+}
+
+.button:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}

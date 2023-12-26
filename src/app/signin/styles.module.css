@@ -1,0 +1,20 @@
+.container {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: #0f0f0f;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+}
+
+.column {
+    flex-direction: column;
+}
+
+.gap4 {
+    gap: 4px;
+}

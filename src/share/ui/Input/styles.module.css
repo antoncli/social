@@ -1,0 +1,11 @@
+.input {
+    border: none;
+    border-radius: 3px;
+    padding: 8px;
+}
+
+.input:focus {
+    border: 1px solid cornflowerblue;
+    outline: none;
+    padding: 7px;
+}

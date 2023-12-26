@@ -1,0 +1,14 @@
+.container {
+  width: 100vw;
+  height: 40px;
+  border-bottom: 1px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px 0 8px;
+}
+
+.label {
+  font-size: x-large;
+  font-weight: 900;
+}
