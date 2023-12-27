@@ -5,6 +5,10 @@ import { z } from "zod";
 export type TUser = z.infer<typeof UserSchema>;
 
 const userSchema = new mongoose.Schema<TUser>({
+  name: {
+    type: String,
+    required: [true, "Please provide a name!"],
+  },
   email: {
     type: String,
     required: [true, "Please provide a email!"],
@@ -12,7 +16,7 @@ const userSchema = new mongoose.Schema<TUser>({
   },
   password: {
     type: String,
-    require: [true, "Please provide a password"],
+    require: [true, "Please provide a password!"],
   },
   isVerified: {
     type: Boolean,

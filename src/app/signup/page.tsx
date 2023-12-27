@@ -15,6 +15,7 @@ export default function SignUp() {
     email: "",
     password: "",
     repeatPassword: "",
+    name: "",
   });
 
   const onSignup = async () => {
@@ -33,6 +34,7 @@ export default function SignUp() {
   return (
     <div className={`${styles.container} center column ${styles.gap}`}>
       <label>Sign up</label>
+      <Input placeholder='Name' onChange={(e) => setUser({ ...user, name: e.target.value })} />
       <Input type='email' placeholder='Login' onChange={(e) => setUser({ ...user, email: e.target.value })} />
       <Input type='password' placeholder='Password' onChange={(e) => setUser({ ...user, password: e.target.value })} />
       <Input
