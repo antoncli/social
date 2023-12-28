@@ -1,4 +1,4 @@
-export function hideOnClickOutside(element: HTMLElement, onOutside: () => void): () => void {
+export function detectOnClickOutside(element: HTMLElement, onOutside: () => void): () => void {
   const outsideClickListener = (event: any) => {
     if (!element.contains(event.target) && isVisible(element)) {
       onOutside();

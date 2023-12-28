@@ -1,5 +1,6 @@
 import { TSafeUserSchema } from "@/schemas/safe/SafeUserSchema";
 import styles from "@/share/components/UsersPopupList/styles.module.css";
+import SmallUserCard from "@/share/ui/SmallUserCard/SmallUserCard";
 import { LegacyRef } from "react";
 
 type Props = {
@@ -15,7 +16,7 @@ export default function UsersPopupList({ users, width = "20vw", maxHeight, inner
       <div className={styles.list}>
         <div>
           {users.map((user) => {
-            return <div key={user.name}>{user.name}</div>;
+            return <SmallUserCard key={user.name} user={user} />;
           })}
         </div>
       </div>

@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  align-items: center;
+  padding: 8px 10px 8px 10px;
+  gap: 8px;
+}
+
+.container:hover {
+  background-color: #52525e;
+  cursor: pointer;
+}
+
+.avatarContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: black;
+  font-size: smaller;
+  font-weight: 600;
+}
+
+
+.label {
+  font-size: smaller;
+  font-weight: 300;
+  cursor: pointer;
+}

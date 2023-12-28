@@ -10,11 +10,13 @@ export async function serviceGet(url: string): Promise<TSafeUserSchema[] | Error
     const { searchParams } = new URL(url);
     const input = searchParams.get("input");
     const page = parseInt(searchParams.get("page") || "");
+    let limit: number | undefined = parseInt(searchParams.get("limit") || "");
 
     if (input == undefined) return new Error("Query parameter input is undefined");
     if (page == undefined || Number.isNaN(page)) return new Error("Query parameter page is undefined");
+    if (Number.isNaN(limit)) limit = undefined;
 
-    const users = await dbGet(input, page);
+    const users = await dbGet(input, page, limit);
     if (users instanceof Error) return users;
 
     const safeUsers: TSafeUserSchema[] = users.map((user) => {
