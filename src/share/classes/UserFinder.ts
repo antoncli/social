@@ -1,4 +1,5 @@
 import { TSafeUserSchemaArray, SafeUserSchemaArray } from "@/schemas/safe/SafeUserSchema";
+import { userService } from "@/services/userService";
 import axios from "axios";
 import { Dispatch, SetStateAction, RefObject, ChangeEventHandler } from "react";
 
@@ -26,6 +27,10 @@ export default class UsersFinder {
     addEventListener("resize", this._onWindowResize);
   }
 
+  get input(): string {
+    return this._searchInputPrevValue;
+  }
+
   destroy() {
     removeEventListener("resize", this._onWindowResize);
   }
@@ -49,7 +54,7 @@ export default class UsersFinder {
   private _fetchUsers = async (input: string) => {
     try {
       const limit = Math.floor((window.innerHeight * 0.5) / this._rowHeight);
-      const res = await axios.get("/api/users/find", { params: { input, page: 1, limit } });
+      const res = await userService.find(input, 1, limit);
 
       const usersParseRes = SafeUserSchemaArray.safeParse(res.data);
       if (!usersParseRes.success) return;

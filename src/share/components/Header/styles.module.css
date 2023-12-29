@@ -1,7 +1,7 @@
 .container {
   position: absolute;
   width: 100vw;
-  height: 40px;
+  height: var(--header-height);
   border-bottom: 1px solid #ffffff;
   display: flex;
   align-items: center;

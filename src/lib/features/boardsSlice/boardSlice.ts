@@ -1,30 +1,33 @@
-import { Boards } from "@/app/feed/classes/boardFactory";
+import { PeoplePayload } from "@/app/feed/boards/People/People";
+import { BoardName } from "@/app/feed/enums/BoardName";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-type BoardData = { name: keyof Boards; id: string; props: unknown };
+type PeoplePayloadAction = { name: BoardName.people; id: number; props: PeoplePayload; headerChildren?: JSX.Element };
 
 interface BoardsSlice {
-  boards: BoardData[];
+  [BoardName.people]: PeoplePayloadAction[];
 }
 
 const initialState: BoardsSlice = {
-  boards: [],
+  people: [],
 };
 
 const boardsSlice = createSlice({
   name: "boards",
   initialState,
   reducers: {
-    addBoard(state, action: PayloadAction<BoardData>) {
-      console.log("Hello");
-      state.boards.push(action.payload);
+    addFriendsBoard(state, action: PayloadAction<PeoplePayloadAction>) {
+      state[BoardName.people].push(action.payload);
     },
-    removeBoard(state, action: PayloadAction<string>) {
-      const index = state.boards.findIndex((board) => board.id === action.payload);
-      state.boards = [...state.boards.slice(0, index), ...state.boards.slice(index + 1)];
+    removeBoard(state, action: PayloadAction<{ name: BoardName; id: number }>) {
+      if (BoardName.people) {
+        const boards = state[action.payload.name];
+        const index = boards.findIndex((board) => board.id === action.payload.id);
+        state[action.payload.name] = [...boards.slice(0, index), ...boards.slice(index + 1)];
+      }
     },
   },
 });
 
-export const { addBoard, removeBoard } = boardsSlice.actions;
+export const { addFriendsBoard, removeBoard } = boardsSlice.actions;
 export const boards = boardsSlice.reducer;

@@ -1,0 +1,6 @@
+.content {
+  position: absolute;
+  top: var(--header-height);
+  width: 100%;
+  height: calc(100% - var(--header-height));
+}

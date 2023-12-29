@@ -3,7 +3,7 @@
 import styles from "@/share/components/Header/styles.module.css";
 import { printFetchError } from "@/share/helpers/printFetchError";
 import Button from "@/share/ui/Button/Button";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 
 type Props = {
