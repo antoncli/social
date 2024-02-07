@@ -1,9 +1,15 @@
-.boards {
+.container {
+  position: relative;
   display: flex;
   justify-content: center;
+  height: 100%;
+}
+
+.boards {
+  display: flex;
   align-items: center;
-  gap: 10px;
-  width: 100%;
+  gap: 26px;
   height: 100%;
   padding: 30px;
+  overflow: auto;
 }

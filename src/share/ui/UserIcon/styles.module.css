@@ -1,0 +1,11 @@
+.avatarContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: black;
+  font-size: smaller;
+  font-weight: 600;
+}

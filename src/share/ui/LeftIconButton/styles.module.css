@@ -1,0 +1,10 @@
+.button {
+  border: none;
+  border-radius: 3px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.text {
+  cursor: pointer;
+}

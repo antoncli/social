@@ -1,13 +1,14 @@
-.container {
+.header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 8px 10px 8px 10px;
-  gap: 8px;
 }
 
-.container:hover {
-  background-color: #52525e;
-  cursor: pointer;
+.user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .label {

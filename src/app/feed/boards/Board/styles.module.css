@@ -1,9 +1,20 @@
 .board {
+  position: relative;
+  flex: none;
   width: 300px;
   height: 100%;
-  border: 1px solid #fff;
-  border-radius: 13px;
-  padding: 10px;
+  border-radius: 8px;
+  background-color: var(--dark-theme-background-1);
+  background: var(--dark-theme-background-1);
+}
+
+.shadow::before {
+  content:"";
+  position: absolute;
+  inset: -5px;
+  background: radial-gradient(circle at 50% 0%,#F8D5C6, #2E537C);
+  filter: blur(10px);
+  z-index: -1;
 }
 
 .header {
@@ -11,6 +22,7 @@
   justify-content: space-between;
   align-items: center;
   height: var(--board-header-height);
+  padding: 8px 6px 6px 6px;
 }
 
 .closeButton {

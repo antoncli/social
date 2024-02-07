@@ -1,8 +1,14 @@
-import { SafeUserSchemaArray, TSafeUserSchemaArray } from "@/schemas/safe/SafeUserSchema";
+"use client";
+
+import { SafeUserSchemaArray } from "@/schemas/safe/SafeUserSchema";
 import { userService } from "@/services/userService";
 import SmallUserCard from "@/share/ui/SmallUserCard/SmallUserCard";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import styles from "@/app/feed/boards/People/styles.module.css";
+import { useAppDispatch } from "@/store/hooks";
+import { addUserBoard } from "@/store/features/boardsSlice/boardSlice";
+import BoardId from "@/app/feed/classes/BoardId";
+import { User } from "@/schemas/UserSchema";
 
 export type PeoplePayload = {
   input: string;
@@ -10,9 +16,10 @@ export type PeoplePayload = {
 
 type Props = PeoplePayload;
 
-export default function People({ input }: Props) {
+export default memo(function People({ input }: Props) {
+  const dispatch = useAppDispatch();
   const pageRef = useRef(1);
-  const [users, setUsers] = useState<TSafeUserSchemaArray>([]);
+  const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
     updateUsers(input, pageRef.current, 20);
@@ -34,11 +41,15 @@ export default function People({ input }: Props) {
     setUsers([...users, ...usersParseRes.data]);
   };
 
+  const onUserClick = (user: User) => {
+    dispatch(addUserBoard({ id: BoardId.id, props: { user } }));
+  };
+
   return (
     <div className={styles.users} onScroll={onScroll}>
       {users.map((user, i) => (
-        <SmallUserCard key={i} user={user} />
+        <SmallUserCard key={i} user={user} onClick={() => onUserClick(user)} />
       ))}
     </div>
   );
-}
+});

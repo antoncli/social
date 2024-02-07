@@ -2,11 +2,22 @@
   position: absolute;
   width: 100vw;
   height: var(--header-height);
-  border-bottom: 1px solid #ffffff;
+  /* border-bottom: 1px solid #ffffff; */
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 8px 0 8px;
+  background: black;
+}
+
+
+.shadow::before {
+  content:"";
+  position: absolute;
+  inset: -5px;
+  transform: translate3d(0, -10px, 1px);
+  background: radial-gradient(circle at 50% 0%,#F8D5C6, #2E537C);
+  filter: blur(50px);
 }
 
 .label {

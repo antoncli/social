@@ -1,6 +1,5 @@
 import { TSafeUserSchemaArray, SafeUserSchemaArray } from "@/schemas/safe/SafeUserSchema";
 import { userService } from "@/services/userService";
-import axios from "axios";
 import { Dispatch, SetStateAction, RefObject, ChangeEventHandler } from "react";
 
 export default class UsersFinder {
