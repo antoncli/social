@@ -7,11 +7,13 @@ import People from "@/app/feed/boards/People/People";
 import { removeBoard } from "@/store/features/boardsSlice/boardSlice";
 import { BoardName } from "@/app/feed/enums/BoardName";
 import User from "@/app/feed/boards//User/User";
+import Me from "@/app/feed/boards/Me/Me";
 
 export default function Boards() {
   const dispatch = useAppDispatch();
   const people = useAppSelector((state) => state.boards.people);
   const user = useAppSelector((state) => state.boards.user);
+  const me = useAppSelector((state) => state.boards.me);
 
   const onCloseClick = (name: BoardName, id: number) => {
     dispatch(removeBoard({ name, id }));
@@ -31,6 +33,13 @@ export default function Boards() {
           return (
             <Board key={board.id} onCloseClick={() => onCloseClick(board.name, board.id)}>
               <User user={board.props.user} />
+            </Board>
+          );
+        })}
+        {me.map((board) => {
+          return (
+            <Board key={board.id} onCloseClick={() => onCloseClick(board.name, board.id)}>
+              <Me />
             </Board>
           );
         })}

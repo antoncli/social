@@ -7,8 +7,8 @@ type Props = {
 
 export function UserIcon({ name }: Props) {
   return (
-    <div className={styles.avatarContainer} style={{ backgroundColor: getAvatarColorByString(`${name.at(0)}${name.at(-1)}`) }}>
+    <span className={styles.avatarContainer} style={{ backgroundColor: getAvatarColorByString(`${name.at(0)}${name.at(-1)}`) }}>
       {name.charAt(0).toUpperCase()}
-    </div>
+    </span>
   );
 }

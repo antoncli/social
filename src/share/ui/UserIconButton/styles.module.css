@@ -1,0 +1,11 @@
+.button {
+  padding: 3px;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: var(--dark-theme-hover-gray);
+}

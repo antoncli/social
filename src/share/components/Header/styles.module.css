@@ -1,23 +1,40 @@
 .container {
   position: absolute;
   width: 100vw;
-  height: var(--header-height);
-  /* border-bottom: 1px solid #ffffff; */
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 8px 0 8px;
+  display: grid;
+  grid-template-columns: 33% auto 33%;
+  grid-template-rows: var(--header-height);
+  grid-template-areas: "left center right";
+  padding: 8px 8px 0 8px;
   background: black;
 }
 
 
-.shadow::before {
+/* .shadow::before {
   content:"";
   position: absolute;
   inset: -5px;
   transform: translate3d(0, -10px, 1px);
   background: radial-gradient(circle at 50% 0%,#F8D5C6, #2E537C);
   filter: blur(50px);
+} */
+
+.left {
+  grid-area: left;
+  justify-self: left;
+}
+
+.center {
+  grid-area: center;
+  justify-self: center;
+}
+
+.right {
+  grid-area: right;
+  justify-self: right;
+  display: flex;
+  align-items: center;
+  gap: 10px
 }
 
 .label {

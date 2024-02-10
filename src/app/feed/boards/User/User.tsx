@@ -6,11 +6,11 @@ import { UserIcon } from "@/share/ui/UserIcon/UserIcon";
 import { memo } from "react";
 import AddFriendButton from "./components/AddFriendButton/AddFriendButton";
 
-export type Props = {
+export type UserPayload = {
   user: User;
 };
 
-export default memo(function User({ user }: Props) {
+export default memo(function User({ user }: UserPayload) {
   return (
     <div>
       <div className={styles.header}>

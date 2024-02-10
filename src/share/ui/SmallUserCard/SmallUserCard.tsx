@@ -1,10 +1,10 @@
-import { TSafeUserSchema } from "@/schemas/safe/SafeUserSchema";
 import styles from "@/share/ui/SmallUserCard/styles.module.css";
 import { UserIcon } from "../UserIcon/UserIcon";
 import { MouseEventHandler } from "react";
+import { User } from "@/schemas/UserSchema";
 
 type Props = {
-  user: TSafeUserSchema;
+  user: User;
   onClick?: MouseEventHandler<HTMLDivElement>;
 };
 
