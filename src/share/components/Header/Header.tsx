@@ -1,15 +1,17 @@
 "use client";
 
-import { authService } from "@/services/authService";
-import styles from "@/share/components/Header/styles.module.css";
-import Button from "@/share/ui/Button/Button";
-import { handlePromiseError } from "@/share/helpers/handlePromiesError";
+import { authService } from "@services/authService";
+import styles from "@share/components/Header/styles.module.css";
+import Button from "@share/ui/Button/Button";
+import { handlePromiseError } from "@share/helpers/handlePromiesError";
 import { useRouter } from "next/navigation";
-import UserIconButton from "@/share/ui/UserIconButton/UserIconButton";
-import { parseJwt } from "@/share/helpers/parseJwt";
-import { addMeBoard } from "@/store/features/boardsSlice/boardSlice";
-import BoardId from "@/app/feed/classes/BoardId";
-import { useAppDispatch } from "@/store/hooks";
+import UserIconButton from "@share/ui/UserIconButton/UserIconButton";
+import { parseJwt } from "@share/helpers/parseJwt";
+import { addComposePostBoard, addMeBoard } from "@store/features/boardsSlice/boardSlice";
+import BoardId from "@app/feed/classes/BoardId";
+import { useAppDispatch } from "@store/hooks";
+import RoundIconButton from "@/share/ui/RoundIconButton/RoundIconButton";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons/faPenToSquare";
 
 type Props = {
   pageName: string;
@@ -28,8 +30,11 @@ export default function Header({ pageName, centerChild }: Props) {
     });
   };
 
+  const handlePostWriteClick = () => {
+    dispatch(addComposePostBoard({ id: BoardId.id, props: { name: jwtAccess.name } }));
+  };
+
   const handleUserClick = () => {
-    console.log("Click");
     dispatch(addMeBoard({ id: BoardId.id, props: { name: jwtAccess.name } }));
   };
 
@@ -40,8 +45,9 @@ export default function Header({ pageName, centerChild }: Props) {
       </div>
       <div className={styles.center}>{centerChild}</div>
       <div className={styles.right}>
+        <RoundIconButton icon={faPenToSquare} onClick={handlePostWriteClick} />
         <UserIconButton name={jwtAccess.name} onClick={handleUserClick} />
-        <Button text='Sign out' onClick={signOut} />
+        <Button text='Sign out' border={true} onClick={signOut} />
       </div>
     </div>
   );

@@ -1,9 +1,9 @@
 .container {
   position: absolute;
   top: 110%;
-  z-index: 1000;
   background-color: #2b2a33;
   border-radius: 8px;
+  z-index: 1000;
 }
 
 .list {

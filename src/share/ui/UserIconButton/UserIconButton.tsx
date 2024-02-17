@@ -1,6 +1,6 @@
-import { UserIcon } from "@/share/ui/UserIcon/UserIcon";
-import styles from "@/share/ui/UserIconButton/styles.module.css";
+import { UserIcon } from "@share/ui/UserIcon/UserIcon";
 import { MouseEventHandler } from "react";
+import RoundButton from "@share/ui/RoundButton/RoundButton";
 
 type Props = {
   name: string;
@@ -9,8 +9,8 @@ type Props = {
 
 export default function UserIconButton({ name, onClick }: Props) {
   return (
-    <button className={styles.button} onClick={onClick}>
+    <RoundButton onClick={onClick}>
       <UserIcon name={name} />
-    </button>
+    </RoundButton>
   );
 }

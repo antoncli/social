@@ -18,7 +18,7 @@ export default function Board({ children, headerChildren, onCloseClick }: Props)
           <FontAwesomeIcon icon={faXmark} className={styles.closeIcon} />
         </button>
       </div>
-      {children}
+      <div className={styles.budy}>{children}</div>
     </div>
   );
 }

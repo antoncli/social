@@ -1,4 +1,4 @@
 .users {
-  height: calc(100% - var(--board-header-height));
+  height: 100%;
   overflow-x: hidden;
 }
