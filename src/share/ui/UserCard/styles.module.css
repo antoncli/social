@@ -1,7 +1,13 @@
-.user {
+.container {
   display: flex;
   align-items: center;
+  padding: 8px;
   gap: 8px;
+}
+
+.container:hover {
+  background-color: var(--dark-theme-hover-gray);
+  cursor: pointer;
 }
 
 .label {

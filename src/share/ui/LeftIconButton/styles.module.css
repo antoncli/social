@@ -1,3 +1,8 @@
+.body {
+  display: flex;
+  gap: 4px
+}
+
 .button {
   border: none;
   border-radius: 999px;

@@ -1,18 +1,15 @@
-import styles from "@/share/ui/SmallUserCard/styles.module.css";
-import { UserIcon } from "../UserIcon/UserIcon";
-import { MouseEventHandler } from "react";
-import { User } from "@/schemas/UserSchema";
+import { UserIcon } from "@share/ui/UserIcon/UserIcon";
+import styles from "@share/ui/SmallUserCard/styles.module.css";
 
 type Props = {
-  user: User;
-  onClick?: MouseEventHandler<HTMLDivElement>;
+  name: string;
 };
 
-export default function SmallUserCard({ user, onClick }: Props) {
+export default function SmallUserCard({ name }: Props) {
   return (
-    <div className={styles.container} onClick={onClick}>
-      <UserIcon name={user.name} />
-      <label className={styles.label}>{user.name}</label>
+    <div className={styles.user}>
+      <UserIcon name={name}></UserIcon>
+      <label className={styles.label}>{name}</label>
     </div>
   );
 }

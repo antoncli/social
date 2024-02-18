@@ -4,7 +4,7 @@ import { useAppDispatch } from "@/store/hooks";
 import { User } from "@/schemas/UserSchema";
 import { TSafeUserSchema } from "@/schemas/safe/SafeUserSchema";
 import styles from "@/share/components/UsersPopupList/styles.module.css";
-import SmallUserCard from "@/share/ui/SmallUserCard/SmallUserCard";
+import UserCard from "@/share/ui/UserCard/UserCard";
 import { LegacyRef, MouseEventHandler } from "react";
 
 type Props = {
@@ -27,7 +27,7 @@ export default function UsersPopupList({ users, width = "20vw", maxHeight, inner
       <div className={styles.list}>
         <div>
           {users.map((user) => {
-            return <SmallUserCard key={user.name} user={user} onClick={() => handleUserClick(user)} />;
+            return <UserCard key={user.name} user={user} onClick={() => handleUserClick(user)} />;
           })}
         </div>
       </div>

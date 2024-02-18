@@ -2,7 +2,7 @@
 
 import { SafeUserSchemaArray } from "@/schemas/safe/SafeUserSchema";
 import { userService } from "@/services/userService";
-import SmallUserCard from "@/share/ui/SmallUserCard/SmallUserCard";
+import UserCard from "@/share/ui/UserCard/UserCard";
 import { memo, useEffect, useRef, useState } from "react";
 import styles from "@/app/feed/boards/People/styles.module.css";
 import { useAppDispatch } from "@/store/hooks";
@@ -48,7 +48,7 @@ export default memo(function People({ input }: Props) {
   return (
     <div className={styles.users} onScroll={onScroll}>
       {users.map((user, i) => (
-        <SmallUserCard key={i} user={user} onClick={() => onUserClick(user)} />
+        <UserCard key={i} user={user} onClick={() => onUserClick(user)} />
       ))}
     </div>
   );
