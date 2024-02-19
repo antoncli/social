@@ -44,6 +44,8 @@
   --dark-theme-hover: #272727;
   --dark-theme-hover-gray: #52525e;
   --dark-theme-background-1: #18181a;
+  --color-1: #fff;
+  --color-2: #000;
   --color-3: #2b2a33;
   --color-4: #272727;
 }
@@ -109,6 +111,10 @@ a {
 }
 
 button {
+  font-family: inherit
+}
+
+input {
   font-family: inherit
 }
 

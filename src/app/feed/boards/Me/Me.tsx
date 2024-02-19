@@ -6,7 +6,7 @@ export type MePayload = {};
 
 export default memo(function Me({}: MePayload) {
   return (
-    <div>
+    <div className={styles.container}>
       <PostsList />
     </div>
   );

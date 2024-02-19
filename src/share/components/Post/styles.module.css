@@ -1,4 +1,20 @@
 .container {
-  border: 1px solid #fff;
-  border-radius: 5px;
+  display: grid;
+  grid-template-rows: [user] 30px [date] 10px [text] auto [text];
+  row-gap: 8px;
+  min-height: 160px;
+  padding: 8px;
+  background-color: var(--color-2);
+  border-radius: 10px;
+}
+
+.textarea {
+  width: 100%;
+  border: none;
+  background-color: transparent;
+  resize: none;
+}
+
+.textarea:focus {
+  outline: none;
 }
