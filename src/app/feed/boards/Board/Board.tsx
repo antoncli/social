@@ -11,7 +11,7 @@ type Props = {
 
 export default function Board({ children, headerChildren, onCloseClick }: Props) {
   return (
-    <div className={`${styles.board} ${styles.shadow}`}>
+    <div className={styles.board}>
       <div className={styles.header}>
         {headerChildren || <span></span>}
         <button className={styles.closeButton} onClick={onCloseClick}>

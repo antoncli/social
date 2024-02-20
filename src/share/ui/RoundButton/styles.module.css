@@ -11,5 +11,5 @@
 }
 
 .button:hover {
-  background-color: var(--dark-theme-hover-gray);
+  background-color: var(--color-6);
 }

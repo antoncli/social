@@ -1,0 +1,23 @@
+.container {
+  position: relative;
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(var(--round-button-diameter) + 8px);
+  right: 0;
+  width: 86px;
+  border-radius: 7px;
+  background-color: var(--color-3);
+}
+
+.row {
+  padding: 8px;
+  font-size: small;
+  cursor: pointer;
+}
+
+.row:hover {
+  border-radius: 7px;
+  background-color: var(--color-6);
+}

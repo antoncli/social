@@ -8,5 +8,5 @@ type Props = {
 
 export default function Date({ timestamp }: Props) {
   dayjs.extend(relativeTime);
-  return <text>{dayjs(timestamp).fromNow()}</text>;
+  return <p className={styles.date}>{dayjs(timestamp).fromNow()}</p>;
 }

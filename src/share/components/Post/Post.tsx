@@ -1,17 +1,26 @@
 import SmallUserCard from "@share/ui/SmallUserCard/SmallUserCard";
 import { Post } from "@schemas/PostSchema";
 import styles from "@share/components/Post/styles.module.css";
-import Date from "@share/ui/Date/Date";
+import ButtonDropDown from "@share/ui/ButtonDropDown/ButtonDropDown";
+import RoundIconButton from "@/share/ui/RoundIconButton/RoundIconButton";
+import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons/faEllipsisVertical";
+import { DropDownRow } from "@/share/types/DropDownRow";
 
 type Props = {
   post: Post;
 };
 
 export default function Post({ post }: Props) {
+  const rows: DropDownRow[] = [{ id: "delete", text: "Delete", callback(id) {} }];
+
   return (
     <div className={styles.container}>
-      <SmallUserCard name={post.name} />
-      <Date timestamp={post.date} />
+      <span className={styles.header}>
+        <SmallUserCard name={post.name} timestamp={post.date} />
+        <ButtonDropDown rows={rows}>
+          <RoundIconButton icon={faEllipsisVertical} />
+        </ButtonDropDown>
+      </span>
       <textarea className={styles.textarea} readOnly={true}>
         {post.text}
       </textarea>

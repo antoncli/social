@@ -11,7 +11,7 @@ export default function PostsList() {
   return (
     <div className={styles.container}>
       {posts.data.map((post) => (
-        <Post post={post} />
+        <Post key={post.id} post={post} />
       ))}
     </div>
   );

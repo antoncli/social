@@ -2,8 +2,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 30px;
-  height: 30px;
+  width: var(--round-button-diameter);
+  height: var(--round-button-diameter);
   border-radius: 50%;
   color: black;
   font-size: smaller;

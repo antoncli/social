@@ -1,22 +1,13 @@
 .board {
+  position: relative;
   display: grid;
   grid-template-rows: [header-start] 40px [header-end] calc(100% - var(--board-header-height)) [body];
-  position: relative;
   flex: none;
   width: 310px;
   height: 100%;
   border-radius: 8px;
-  background-color: var(--dark-theme-background-1);
-  background: var(--dark-theme-background-1);
-}
-
-.shadow::before {
-  content:"";
-  position: absolute;
-  inset: -5px;
-  background: radial-gradient(circle at 50% 0%,#F8D5C6, #2E537C);
-  filter: blur(10px);
-  z-index: -1;
+  background-color: var(--color-5);
+  background: var(--color-5);
 }
 
 .header {
