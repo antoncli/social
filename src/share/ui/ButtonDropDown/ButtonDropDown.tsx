@@ -1,6 +1,7 @@
-import { DropDownRow } from "@/share/types/DropDownRow";
+import { useClickOutside } from "@share/hooks/useClickOutside";
+import { DropDownRow } from "@share/types/DropDownRow";
 import styles from "@share/ui/ButtonDropDown/styles.module.css";
-import { ReactElement } from "react";
+import { ReactElement, useRef, useState } from "react";
 
 type Props = {
   children: ReactElement;
@@ -8,14 +9,27 @@ type Props = {
 };
 
 export default function ButtonDropDown({ children, rows }: Props) {
+  const dropDownRef = useRef(null);
+  const [showDropDown, setShowDropDown] = useState<boolean>(false);
+
+  useClickOutside(() => setShowDropDown(false), dropDownRef);
+
+  const toggleDropDown = () => {
+    setShowDropDown(!showDropDown);
+  };
+
   return (
-    <div className={styles.container}>
+    <div ref={dropDownRef} className={styles.container} onClick={toggleDropDown}>
       {children}
-      <div className={styles.dropdown}>
-        {rows.map((row) => (
-          <div className={styles.row}>{row.text}</div>
-        ))}
-      </div>
+      {showDropDown && (
+        <div className={styles.dropdown}>
+          {rows.map((row) => (
+            <div key={row.id} className={styles.row} onClick={() => row.callback && row.callback()}>
+              {row.text}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

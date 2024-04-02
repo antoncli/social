@@ -1,1 +1,1 @@
-export type DropDownRow = { id: string; text: string; callback?: (id: string) => void };
+export type DropDownRow = { id: string; text: string; callback?: () => void };

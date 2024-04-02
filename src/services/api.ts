@@ -31,6 +31,7 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
+    if (error.response.data.access_token) localStorage.setItem("access_token", error.response.data.access_token);
     if (error.response.status === 401) window.location.replace("http://localhost:3333/signin");
     return Promise.reject(error);
   }
