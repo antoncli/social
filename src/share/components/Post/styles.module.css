@@ -2,7 +2,7 @@
   display: grid;
   grid-template-rows: [user] 30px [text-start] auto [text-end];
   row-gap: 8px;
-  min-height: 160px;
+  height: 160px;
   padding: 8px;
   background-color: var(--color-2);
   border-radius: 10px;

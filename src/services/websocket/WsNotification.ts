@@ -9,7 +9,6 @@ type Event = {
 
 export default class WsNotification extends Evented<Event> {
   private static _instance: WsNotification;
-  private _socket: ReturnType<typeof io>;
 
   private constructor() {
     super();
@@ -30,8 +29,6 @@ export default class WsNotification extends Evented<Event> {
     window.addEventListener("beforeunload", () => {
       socket.close();
     });
-
-    this._socket = socket;
   }
 
   static getInstance() {

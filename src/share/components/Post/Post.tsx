@@ -6,29 +6,40 @@ import RoundIconButton from "@share/ui/RoundIconButton/RoundIconButton";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons/faEllipsisVertical";
 import { DropDownRow } from "@share/types/DropDownRow";
 import { postService } from "@services/postService";
+import { useEffect, useState } from "react";
+import { PostRowsOptions } from "@share/types/PostRowsOptions";
 
 type Props = {
   post: Post;
+  rowsOptions?: PostRowsOptions;
 };
 
-export default function Post({ post }: Props) {
-  const rows: DropDownRow[] = [
-    {
-      id: "delete",
-      text: "Delete",
-      callback() {
-        postService.remove(post.id);
-      },
-    },
-  ];
+export default function Post({ post, rowsOptions = { delete: true } }: Props) {
+  const [rows, setRows] = useState<DropDownRow[]>([]);
+
+  useEffect(() => {
+    const rows: DropDownRow[] = [];
+    if (rowsOptions.delete) {
+      rows.push({
+        id: "delete",
+        text: "Delete",
+        callback() {
+          postService.remove(post.id);
+        },
+      });
+    }
+    setRows(rows);
+  }, []);
 
   return (
     <div className={styles.container}>
       <span className={styles.header}>
         <SmallUserCard name={post.name} timestamp={post.date} />
-        <ButtonDropDown rows={rows}>
-          <RoundIconButton icon={faEllipsisVertical} />
-        </ButtonDropDown>
+        {rows.length ? (
+          <ButtonDropDown rows={rows}>
+            <RoundIconButton icon={faEllipsisVertical} />
+          </ButtonDropDown>
+        ) : null}
       </span>
       <textarea className={styles.textarea} readOnly={true} value={post.text} />
     </div>

@@ -1,3 +1,4 @@
+import { PostsPayload } from "@/app/feed/boards/Posts/Posts";
 import { ComposePostPayload } from "@app/feed/boards/ComposePost/ComposePost";
 import { MePayload } from "@app/feed/boards/Me/Me";
 import { PeoplePayload } from "@app/feed/boards/People/People";
@@ -9,12 +10,14 @@ type PeoplePayloadAction = { name: BoardName.people; id: number; props: PeoplePa
 type PeopleUserAction = { name: BoardName.user; id: number; props: UserPayload; headerChildren?: JSX.Element };
 type MeUserAction = { name: BoardName.me; id: number; props: MePayload; headerChildren?: JSX.Element };
 type ComposePostAction = { name: BoardName.composePost; id: number; props: ComposePostPayload; headerChildren?: JSX.Element };
+type PostsAction = { name: BoardName.posts; id: number; props: PostsPayload; headerChildren?: JSX.Element };
 
 interface BoardsSlice {
   [BoardName.people]: PeoplePayloadAction[];
   [BoardName.user]: PeopleUserAction[];
   [BoardName.me]: MeUserAction[];
   [BoardName.composePost]: ComposePostAction[];
+  [BoardName.posts]: PostsAction[];
 }
 
 const initialState: BoardsSlice = {
@@ -22,6 +25,7 @@ const initialState: BoardsSlice = {
   user: [],
   me: [],
   composePost: [],
+  posts: [],
 };
 
 const boardsSlice = createSlice({
@@ -40,6 +44,9 @@ const boardsSlice = createSlice({
     addComposePostBoard(state, action: PayloadAction<Omit<ComposePostAction, "name">>) {
       state[BoardName.composePost].push({ ...action.payload, name: BoardName.composePost });
     },
+    addPostsBoard(state, action: PayloadAction<Omit<PostsAction, "name">>) {
+      state[BoardName.posts].push({ ...action.payload, name: BoardName.posts });
+    },
     removeBoard(state, action: PayloadAction<{ name: BoardName; id: number }>) {
       if (BoardName.people) {
         const boards = state[action.payload.name];
@@ -51,5 +58,5 @@ const boardsSlice = createSlice({
   },
 });
 
-export const { addFriendsBoard, addUserBoard, addMeBoard, addComposePostBoard, removeBoard } = boardsSlice.actions;
+export const { addFriendsBoard, addUserBoard, addMeBoard, addComposePostBoard, addPostsBoard, removeBoard } = boardsSlice.actions;
 export const boards = boardsSlice.reducer;

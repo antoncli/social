@@ -14,6 +14,7 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@reduxjs/toolkit": "^2.0.1",
     "@tanstack/react-query": "^5.17.19",
+    "@types/react-virtualized-auto-sizer": "^1.0.4",
     "axios": "^1.6.2",
     "bcryptjs": "^2.4.3",
     "dayjs": "^1.11.10",
@@ -25,6 +26,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-redux": "^9.0.4",
+    "react-virtuoso": "^4.7.7",
     "socket.io": "^4.7.2",
     "socket.io-client": "^4.7.4",
     "zod": "^3.22.4"
@@ -37,6 +39,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-window": "^1.8.8",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
     "typescript": "^5"

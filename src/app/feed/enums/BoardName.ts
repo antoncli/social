@@ -3,4 +3,5 @@ export enum BoardName {
   user = "user",
   me = "me",
   composePost = "composePost",
+  posts = "posts",
 }

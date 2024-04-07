@@ -1,31 +1,36 @@
-import { getJWTData } from "@share/helpers/getJWTData";
 import Post from "@share/components/Post/Post";
 import styles from "@share/components/PostsList/styles.module.css";
-import { WebSocketNotification } from "@/services/enums/WebSocketNotification";
-import { useFetch } from "@/share/hooks/useFetch";
-import { PostArraySchema } from "@/schemas/PostSchema";
-import { postService } from "@/services/postService";
+import { Post as TPost } from "@/schemas/PostSchema";
+import { PostRowsOptions } from "@/share/types/PostRowsOptions";
+import { useEffect, useState } from "react";
+import { Virtuoso } from "react-virtuoso";
 
-export default function PostsList() {
-  const { data } = useFetch("posts", {
-    service: postService.get,
-    params: [getJWTData().name, 1, 20],
-    schema: PostArraySchema,
-    constantly: {
-      use: true,
-      notifications: [WebSocketNotification.postAdded, WebSocketNotification.postDeleted],
-    },
-  });
+type Props = {
+  posts: TPost[];
+  rowsOptions?: PostRowsOptions;
+  onEndReached?: (index: number) => void;
+};
 
-  if (!data) return <div>No posts!</div>;
+export default function PostsList({ posts, rowsOptions, onEndReached }: Props) {
+  const [sortedPosts, setSortedPosts] = useState<TPost[]>([]);
+
+  useEffect(() => {
+    setSortedPosts(posts.sort((a, b) => b.date - a.date));
+  }, [posts.length]);
 
   return (
     <div className={styles.container}>
-      {data
-        .sort((a, b) => b.date - a.date)
-        .map((post) => (
-          <Post key={post.id} post={post} />
-        ))}
+      {sortedPosts.length ? (
+        <Virtuoso
+          totalCount={sortedPosts.length}
+          endReached={onEndReached}
+          itemContent={(index) => (
+            <div style={{ marginBottom: "8px" }}>
+              <Post key={sortedPosts[index].id} post={sortedPosts[index]} rowsOptions={rowsOptions} />
+            </div>
+          )}
+        />
+      ) : null}
     </div>
   );
 }
