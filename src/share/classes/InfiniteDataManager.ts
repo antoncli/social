@@ -2,10 +2,10 @@ import { WebSocketNotification } from "@/services/enums/WebSocketNotification";
 import WsNotification from "@/services/websocket/WsNotification";
 import { z } from "zod";
 
-const IdSChema = z.array(z.object({ id: z.string() }));
+const IdSchema = z.array(z.object({ id: z.string() }));
 
 type Service = (page: number, limit: number) => any;
-type Context<T, K extends typeof IdSChema> = {
+type Context<T, K extends typeof IdSchema> = {
   service: T;
   schema: K;
   constantly?:
@@ -17,26 +17,25 @@ type Context<T, K extends typeof IdSChema> = {
         use: false;
       };
   loading?: (loading: boolean) => void;
-  newDataOnStart?: (data: z.infer<K>) => void;
+  newDataOnTop?: (data: z.infer<K>) => void;
   newDataOnEnd?: (data: z.infer<K>) => void;
   error?: (error: unknown) => void;
 };
 
-export default class InfiniteDataManager<T extends Service, K extends typeof IdSChema> {
+export default class InfiniteDataManager<T extends Service, K extends typeof IdSchema> {
   private _context: Context<T, K>;
   private _data: z.infer<K> = [];
-  private _newPostsFetching: boolean = false;
+  private _newDataFetching: boolean = false;
 
   constructor(context: Context<T, K>) {
     this._context = context;
     WsNotification.getInstance().on(WebSocketNotification.postAdded, () => {
-      if (!this._newPostsFetching) this._newPost;
+      if (!this._newDataFetching) this._newPost();
     });
     WsNotification.getInstance().on(WebSocketNotification.postDeleted, () => {});
   }
 
   fetchEnd = async () => {
-    console.log("fetchEnd");
     const page = Math.floor(this._data.length / 20) + 1;
     const data = await this._fetch(page, 20);
 
@@ -58,26 +57,27 @@ export default class InfiniteDataManager<T extends Service, K extends typeof IdS
   };
 
   private _newPost = async () => {
-    this._newPostsFetching = true;
+    this._newDataFetching = true;
     const tempData = [];
     let page = 1;
     while (true) {
-      const data = await this._fetch(page++, 20);
+      const data = await this._fetch(page++, 5);
       if (!this._data.length) {
         this._data.push(...data);
         break;
       }
+
       const index = data.findIndex((d) => d.id === this._data[0].id);
       if (index === -1) {
         tempData.push(...data);
       } else {
-        tempData.push(...data.slice(1, index - 1));
+        tempData.push(...data.slice(index - 1, 1));
         this._data.unshift(...tempData);
-        this._context.newDataOnStart?.(this._data);
+        this._context.newDataOnTop?.(this._data);
         break;
       }
     }
-    this._newPostsFetching = false;
+    this._newDataFetching = false;
   };
 
   private _fetch = async (page: number, limit: number): Promise<z.infer<K>> => {
