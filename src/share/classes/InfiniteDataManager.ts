@@ -5,6 +5,7 @@ import { z } from "zod";
 const IdSchema = z.array(z.object({ id: z.string() }));
 
 type Service = (page: number, limit: number) => any;
+
 type Context<T, K extends typeof IdSchema> = {
   service: T;
   schema: K;

@@ -19,7 +19,7 @@ export default function ButtonDropDown({ children, rows }: Props) {
   };
 
   return (
-    <div ref={dropDownRef} className={styles.container} onClick={toggleDropDown}>
+    <div role='button' ref={dropDownRef} className={styles.container} onClick={toggleDropDown}>
       {children}
       {showDropDown && (
         <div className={styles.dropdown}>

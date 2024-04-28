@@ -3,14 +3,3 @@
   height: 100%;
   padding: 8px;
 }
-
-.scrollToButton {
-  position: absolute;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 8px;
-  left: 0;
-  right: 0;
-  text-align: center;
-  z-index: 2;
-}

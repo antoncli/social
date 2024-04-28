@@ -1,5 +1,5 @@
 import SmallUserCard from "@share/ui/SmallUserCard/SmallUserCard";
-import { Post } from "@schemas/PostSchema";
+import { Post as TPost } from "@schemas/PostSchema";
 import styles from "@share/components/Post/styles.module.css";
 import ButtonDropDown from "@share/ui/ButtonDropDown/ButtonDropDown";
 import RoundIconButton from "@share/ui/RoundIconButton/RoundIconButton";
@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { PostRowsOptions } from "@share/types/PostRowsOptions";
 
 type Props = {
-  post: Post;
+  post: TPost;
   rowsOptions?: PostRowsOptions;
 };
 
@@ -32,7 +32,7 @@ export default function Post({ post, rowsOptions = { delete: true } }: Props) {
   }, []);
 
   return (
-    <div className={styles.container}>
+    <div role='article' className={styles.container}>
       <span className={styles.header}>
         <SmallUserCard name={post.name} timestamp={post.date} />
         {rows.length ? (
@@ -41,7 +41,7 @@ export default function Post({ post, rowsOptions = { delete: true } }: Props) {
           </ButtonDropDown>
         ) : null}
       </span>
-      <textarea className={styles.textarea} readOnly={true} value={post.text} />
+      <textarea role='textbox' className={styles.textarea} readOnly={true} value={post.text} />
     </div>
   );
 }
