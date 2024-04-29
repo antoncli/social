@@ -19,17 +19,15 @@ export default function UsersPopupList({ users, width = "20vw", maxHeight, inner
   const dispatch = useAppDispatch();
 
   const handleUserClick = (user: User) => {
-    dispatch(addUserBoard({ id: BoardId.id, props: { user } }));
+    dispatch(addUserBoard({ id: BoardId.id, props: { name: user.name } }));
   };
 
   return (
     <div ref={innerRef} className={styles.container} style={{ width, maxHeight }}>
       <div className={styles.list}>
-        <div>
-          {users.map((user) => {
-            return <UserCard key={user.name} user={user} onClick={() => handleUserClick(user)} />;
-          })}
-        </div>
+        {users.map((user) => {
+          return <UserCard key={user.name} user={user} onClick={() => handleUserClick(user)} />;
+        })}
       </div>
       <button className={styles.button} onClick={onShowAllClick}>
         Show all

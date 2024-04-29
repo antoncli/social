@@ -6,15 +6,20 @@ import { UserPayload } from "@app/feed/boards/User/User";
 import { BoardName } from "@app/feed/enums/BoardName";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-type PeoplePayloadAction = { name: BoardName.people; id: number; props: PeoplePayload; headerChildren?: JSX.Element };
-type PeopleUserAction = { name: BoardName.user; id: number; props: UserPayload; headerChildren?: JSX.Element };
-type MeUserAction = { name: BoardName.me; id: number; props: MePayload; headerChildren?: JSX.Element };
-type ComposePostAction = { name: BoardName.composePost; id: number; props: ComposePostPayload; headerChildren?: JSX.Element };
-type PostsAction = { name: BoardName.posts; id: number; props: PostsPayload; headerChildren?: JSX.Element };
+type PeoplePayloadAction = { boardName: BoardName.people; id: number; props: PeoplePayload; headerChildren?: JSX.Element };
+type UserAction = { boardName: BoardName.user; id: number; props: UserPayload; headerChildren?: JSX.Element };
+type MeUserAction = { boardName: BoardName.me; id: number; props: MePayload; headerChildren?: JSX.Element };
+type ComposePostAction = {
+  boardName: BoardName.composePost;
+  id: number;
+  props: ComposePostPayload;
+  headerChildren?: JSX.Element;
+};
+type PostsAction = { boardName: BoardName.posts; id: number; props: PostsPayload; headerChildren?: JSX.Element };
 
 interface BoardsSlice {
   [BoardName.people]: PeoplePayloadAction[];
-  [BoardName.user]: PeopleUserAction[];
+  [BoardName.user]: UserAction[];
   [BoardName.me]: MeUserAction[];
   [BoardName.composePost]: ComposePostAction[];
   [BoardName.posts]: PostsAction[];
@@ -32,28 +37,26 @@ const boardsSlice = createSlice({
   name: "boards",
   initialState,
   reducers: {
-    addFriendsBoard(state, action: PayloadAction<Omit<PeoplePayloadAction, "name">>) {
-      state[BoardName.people].push({ ...action.payload, name: BoardName.people });
+    addFriendsBoard(state, action: PayloadAction<Omit<PeoplePayloadAction, "boardName">>) {
+      state[BoardName.people].push({ ...action.payload, boardName: BoardName.people });
     },
-    addUserBoard(state, action: PayloadAction<Omit<PeopleUserAction, "name">>) {
-      state[BoardName.user].push({ ...action.payload, name: BoardName.user });
+    addUserBoard(state, action: PayloadAction<Omit<UserAction, "boardName">>) {
+      state[BoardName.user].push({ ...action.payload, boardName: BoardName.user });
     },
-    addMeBoard(state, action: PayloadAction<Omit<MeUserAction, "name">>) {
-      state[BoardName.me].push({ ...action.payload, name: BoardName.me });
+    addMeBoard(state, action: PayloadAction<Omit<MeUserAction, "boardName">>) {
+      state[BoardName.me].push({ ...action.payload, boardName: BoardName.me });
     },
-    addComposePostBoard(state, action: PayloadAction<Omit<ComposePostAction, "name">>) {
-      state[BoardName.composePost].push({ ...action.payload, name: BoardName.composePost });
+    addComposePostBoard(state, action: PayloadAction<Omit<ComposePostAction, "boardName">>) {
+      state[BoardName.composePost].push({ ...action.payload, boardName: BoardName.composePost });
     },
-    addPostsBoard(state, action: PayloadAction<Omit<PostsAction, "name">>) {
-      state[BoardName.posts].push({ ...action.payload, name: BoardName.posts });
+    addPostsBoard(state, action: PayloadAction<Omit<PostsAction, "boardName">>) {
+      state[BoardName.posts].push({ ...action.payload, boardName: BoardName.posts });
     },
-    removeBoard(state, action: PayloadAction<{ name: BoardName; id: number }>) {
-      if (BoardName.people) {
-        const boards = state[action.payload.name];
-        const index = boards.findIndex((board) => board.id === action.payload.id);
-        // @ts-ignore
-        state[action.payload.name] = [...boards.slice(0, index), ...boards.slice(index + 1)];
-      }
+    removeBoard(state, action: PayloadAction<{ boardName: BoardName; id: number }>) {
+      const boards = state[action.payload.boardName];
+      const index = boards.findIndex((board) => board.id === action.payload.id);
+      // @ts-ignore
+      state[action.payload.boardName] = [...boards.slice(0, index), ...boards.slice(index + 1)];
     },
   },
 });

@@ -3,10 +3,12 @@
   align-items: center;
   padding: 8px;
   gap: 8px;
+  border-radius: 5px;
+  background-color: var(--color-2);
 }
 
 .container:hover {
-  background-color: var(--dark-theme-hover-gray);
+  background-color: var(--color-3);
   cursor: pointer;
 }
 

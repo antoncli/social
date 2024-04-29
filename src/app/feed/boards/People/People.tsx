@@ -42,7 +42,7 @@ export default memo(function People({ input }: Props) {
   };
 
   const onUserClick = (user: User) => {
-    dispatch(addUserBoard({ id: BoardId.id, props: { user } }));
+    dispatch(addUserBoard({ id: BoardId.id, props: { name: user.name } }));
   };
 
   return (

@@ -6,19 +6,19 @@ import { faUserPlus } from "@fortawesome/free-solid-svg-icons/faUserPlus";
 import { FriendshipSchema } from "@/schemas/FriendshipSchema";
 
 type Props = {
-  user: User;
+  name: string;
 };
 
-export default function AddFriendButton({ user }: Props) {
-  const data = useQuery({ queryKey: ["name", user.name], queryFn: () => friendshipService.get(user.name), retry: false });
+export default function AddFriendButton({ name }: Props) {
+  const data = useQuery({ queryKey: ["name", name], queryFn: () => friendshipService.get(name), retry: false });
 
   const friendParseResult = FriendshipSchema.safeParse(data.data?.data);
   const friendshipInitiated = friendParseResult.success;
-  const isIFriendshipInitiator = friendParseResult.success && friendParseResult.data.name2 === user.name;
+  const isIFriendshipInitiator = friendParseResult.success && friendParseResult.data.name2 === name;
   const accepted = friendParseResult.success && friendParseResult.data.accepted;
 
   const addFriendButtonClick = () => {
-    friendshipService.add(user.name);
+    friendshipService.add(name);
   };
 
   if (!friendshipInitiated) {

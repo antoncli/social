@@ -25,8 +25,8 @@ export default function Boards() {
     dispatch(addPostsBoard({ id: BoardId.id, props: {} }));
   }, []);
 
-  const onCloseClick = (name: BoardName, id: number) => {
-    dispatch(removeBoard({ name, id }));
+  const onCloseClick = (boardName: BoardName, id: number) => {
+    dispatch(removeBoard({ boardName, id }));
   };
 
   return (
@@ -34,35 +34,35 @@ export default function Boards() {
       <div className={styles.boards}>
         {posts.map((board) => {
           return (
-            <Board key={board.id} onCloseClick={() => onCloseClick(board.name, board.id)}>
+            <Board key={board.id} onCloseClick={() => onCloseClick(board.boardName, board.id)}>
               <Posts />
             </Board>
           );
         })}
         {people.map((board) => {
           return (
-            <Board key={board.id} onCloseClick={() => onCloseClick(board.name, board.id)}>
+            <Board key={board.id} onCloseClick={() => onCloseClick(board.boardName, board.id)}>
               <People input={board.props.input} />
             </Board>
           );
         })}
         {user.map((board) => {
           return (
-            <Board key={board.id} onCloseClick={() => onCloseClick(board.name, board.id)}>
-              <User user={board.props.user} />
+            <Board key={board.id} onCloseClick={() => onCloseClick(board.boardName, board.id)}>
+              <User name={board.props.name} />
             </Board>
           );
         })}
         {me.map((board) => {
           return (
-            <Board key={board.id} onCloseClick={() => onCloseClick(board.name, board.id)}>
+            <Board key={board.id} onCloseClick={() => onCloseClick(board.boardName, board.id)}>
               <Me />
             </Board>
           );
         })}
         {composePost.map((board) => {
           return (
-            <Board key={board.id} onCloseClick={() => onCloseClick(board.name, board.id)}>
+            <Board key={board.id} onCloseClick={() => onCloseClick(board.boardName, board.id)}>
               <ComposePost />
             </Board>
           );

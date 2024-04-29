@@ -1,6 +1,6 @@
 .container {
-  display: grid;
-  grid-template-rows: [user] 30px [text-start] auto [text-end];
+  display: flex;
+  flex-direction: column;
   row-gap: 8px;
   height: 160px;
   padding: 8px;
@@ -9,12 +9,13 @@
 }
 
 .header {
+  flex: 0 1 auto;
   display: flex;
   justify-content: space-between;
 }
 
 .textarea {
-  width: 100%;
+  flex: 1 1 auto;
   border: none;
   background-color: transparent;
   resize: none;
