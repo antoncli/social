@@ -6,15 +6,17 @@ import RoundIconButton from "@share/ui/RoundIconButton/RoundIconButton";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons/faEllipsisVertical";
 import { DropDownRow } from "@share/types/DropDownRow";
 import { postService } from "@services/postService";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { PostRowsOptions } from "@share/types/PostRowsOptions";
+import Like from "@share/ui/Like/Like";
+import Dislike from "@share/ui/Dislike/Dislike";
 
 type Props = {
   post: TPost;
   rowsOptions?: PostRowsOptions;
 };
 
-export default function Post({ post, rowsOptions = { delete: true } }: Props) {
+export default memo(function Post({ post, rowsOptions = { delete: true } }: Props) {
   const [rows, setRows] = useState<DropDownRow[]>([]);
 
   useEffect(() => {
@@ -42,6 +44,10 @@ export default function Post({ post, rowsOptions = { delete: true } }: Props) {
         ) : null}
       </span>
       <textarea role='textbox' className={styles.textarea} readOnly={true} value={post.text} />
+      <span className={styles.reactions}>
+        <Like liked={false} count={153} />
+        <Dislike disliked={false} />
+      </span>
     </div>
   );
-}
+});

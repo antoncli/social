@@ -1,13 +1,13 @@
 .button {
   line-height: 30px;
   background-color: transparent;
-  border: 1px solid #ffffff;
+  border: 1px solid var(--color-1);
   border-radius: 999px;
   padding: 0 9px;
 }
 
 .button:hover {
-  background-color: #272727;
+  background-color: var(--color-6);
   cursor: pointer;
 }
 

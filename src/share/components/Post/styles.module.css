@@ -24,3 +24,9 @@
 .textarea:focus {
   outline: none;
 }
+
+.reactions {
+  width: 100%;
+  display: flex;
+  justify-content: right;  
+}
