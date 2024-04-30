@@ -8,8 +8,8 @@ import { DropDownRow } from "@share/types/DropDownRow";
 import { postService } from "@services/postService";
 import { memo, useEffect, useState } from "react";
 import { PostRowsOptions } from "@share/types/PostRowsOptions";
-import Like from "@share/ui/Like/Like";
-import Dislike from "@share/ui/Dislike/Dislike";
+import LikeReaction, { LikeState } from "@share/components/LikeReaction/LikeReaction";
+import { reactionService } from "@services/reactionService";
 
 type Props = {
   post: TPost;
@@ -45,8 +45,14 @@ export default memo(function Post({ post, rowsOptions = { delete: true } }: Prop
       </span>
       <textarea role='textbox' className={styles.textarea} readOnly={true} value={post.text} />
       <span className={styles.reactions}>
-        <Like liked={false} count={153} />
-        <Dislike disliked={false} />
+        <LikeReaction
+          likeState={post.liked ? LikeState.Liked : LikeState.None}
+          likeCount={post.likeCount}
+          onLiked={() => reactionService.like(post.id)}
+          onUnlike={() => reactionService.unlike(post.id)}
+          onDisliked={() => reactionService.dislike(post.id)}
+          onUndisliked={() => reactionService.undislike(post.id)}
+        />
       </span>
     </div>
   );

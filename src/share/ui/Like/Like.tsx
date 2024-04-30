@@ -19,7 +19,9 @@ export default function Like({ liked = false, count = 0, onClick }: Props) {
       ) : (
         <FontAwesomeIcon icon={faThumbsUpRegular as IconProp} size='sm' />
       )}
-      {count > 0 ? <h6>{count}</h6> : null}
+      <div className={styles.count}>
+        <h6>{count}</h6>
+      </div>
     </button>
   );
 }

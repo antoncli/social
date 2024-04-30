@@ -1,4 +1,4 @@
-import styles from "@share/ui/Like/styles.module.css";
+import styles from "@share/ui/Dislike/styles.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faThumbsDown as faThumbsDownSolid } from "@fortawesome/free-solid-svg-icons";
