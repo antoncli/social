@@ -1,9 +1,12 @@
 import { PostArraySchema } from "@/schemas/PostSchema";
 import { postService } from "@/services/postService";
-import PostsList from "@/share/components/PostsList/PostsList";
+import InfiniteList from "@/share/components/InfiniteList/InfiniteList";
 import { memo, useEffect, useState } from "react";
 import InfiniteDataManager from "@share/classes/InfiniteDataManager";
 import { z } from "zod";
+import Post from "@share/components/Post/Post";
+import { Post as TPost } from "@schemas/PostSchema";
+import { PostRowsOptions } from "@share/types/PostRowsOptions";
 
 export type Props = { name?: string };
 
@@ -14,11 +17,11 @@ const getService = (name: string | undefined) => {
 
 export default memo(function InfinitePostsList({ name }: Props) {
   const [data, setData] = useState<z.infer<typeof PostArraySchema>>([]);
-  const [dataManager, setDataManager] = useState<InfiniteDataManager<typeof postService.getFriends, typeof PostArraySchema>>();
+  const [dataManager, setDataManager] = useState<InfiniteDataManager<typeof PostArraySchema>>();
 
   useEffect(() => {
     const service = getService(name);
-    const manager = new InfiniteDataManager<typeof service, typeof PostArraySchema>({
+    const manager = new InfiniteDataManager<typeof PostArraySchema>({
       service,
       schema: PostArraySchema,
       newDataOnTop: (data) => {
@@ -30,5 +33,12 @@ export default memo(function InfinitePostsList({ name }: Props) {
     setDataManager(manager);
   }, [name]);
 
-  return <PostsList data={data || []} rowsOptions={{ delete: false }} onEndReached={dataManager?.fetchEnd} />;
+  return (
+    <InfiniteList<TPost, PostRowsOptions>
+      data={data || []}
+      rowsOptions={{ delete: false }}
+      component={Post}
+      onEndReached={dataManager?.fetchEnd}
+    />
+  );
 });

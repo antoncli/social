@@ -1,4 +1,4 @@
-import styles from "@/share/ui/Button/styles.module.css";
+import styles from "@share/ui/Button/styles.module.css";
 import { ButtonHTMLAttributes } from "react";
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 
 export default function Button({ type = "button", text = "Click me!", onClick, border = false }: Props) {
   return (
-    <button type={type} className={`${styles.button} ${!border && styles.noBorder}`} onClick={onClick}>
+    <button role='button' type={type} className={`${styles.button} ${!border && styles.noBorder}`} onClick={onClick}>
       {text}
     </button>
   );

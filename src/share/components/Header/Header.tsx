@@ -41,7 +41,7 @@ export default function Header({ pageName, centerChild }: Props) {
   return (
     <div className={`${styles.container} ${styles.shadow}`}>
       <div className={styles.left}>
-        <label className={styles.label}>{pageName}</label>
+        <h2>{pageName}</h2>
       </div>
       <div className={styles.center}>{centerChild}</div>
       <div className={styles.right}>

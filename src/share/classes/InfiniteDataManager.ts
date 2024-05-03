@@ -4,11 +4,9 @@ import { z } from "zod";
 
 const IdSchema = z.array(z.object({ id: z.string() }));
 
-type Service = (page: number, limit: number) => any;
-
-type Context<T, K extends typeof IdSchema> = {
-  service: T;
-  schema: K;
+type Context<T extends typeof IdSchema> = {
+  service: (page: number, limit: number) => any;
+  schema: T;
   constantly?:
     | {
         use: true;
@@ -18,17 +16,17 @@ type Context<T, K extends typeof IdSchema> = {
         use: false;
       };
   loading?: (loading: boolean) => void;
-  newDataOnTop?: (data: z.infer<K>) => void;
-  newDataOnEnd?: (data: z.infer<K>) => void;
+  newDataOnTop?: (data: z.infer<T>) => void;
+  newDataOnEnd?: (data: z.infer<T>) => void;
   error?: (error: unknown) => void;
 };
 
-export default class InfiniteDataManager<T extends Service, K extends typeof IdSchema> {
-  private _context: Context<T, K>;
-  private _data: z.infer<K> = [];
+export default class InfiniteDataManager<T extends typeof IdSchema> {
+  private _context: Context<T>;
+  private _data: z.infer<T> = [];
   private _newDataFetching: boolean = false;
 
-  constructor(context: Context<T, K>) {
+  constructor(context: Context<T>) {
     this._context = context;
     WsNotification.getInstance().on(WebSocketNotification.postAdded, () => {
       if (!this._newDataFetching) this._newPost();
@@ -81,7 +79,7 @@ export default class InfiniteDataManager<T extends Service, K extends typeof IdS
     this._newDataFetching = false;
   };
 
-  private _fetch = async (page: number, limit: number): Promise<z.infer<K>> => {
+  private _fetch = async (page: number, limit: number): Promise<z.infer<T>> => {
     return new Promise(async (resolve, reject) => {
       try {
         const responce = await this._context.service(page, limit);

@@ -9,16 +9,6 @@
   background: black;
 }
 
-
-/* .shadow::before {
-  content:"";
-  position: absolute;
-  inset: -5px;
-  transform: translate3d(0, -10px, 1px);
-  background: radial-gradient(circle at 50% 0%,#F8D5C6, #2E537C);
-  filter: blur(50px);
-} */
-
 .left {
   grid-area: left;
   justify-self: left;
@@ -35,9 +25,4 @@
   display: flex;
   align-items: center;
   gap: 10px
-}
-
-.label {
-  font-size: x-large;
-  font-weight: 900;
 }

@@ -1,7 +1,7 @@
 import styles from "@app/feed/boards/Me/styles.module.css";
 import { memo } from "react";
 import { getJWTData } from "@/share/helpers/getJWTData";
-import InfinitePostsList from "@/share/components/InfinitePostsList/InfinitePostsList";
+import InfinitePostsList from "@/share/components/InfinitePostsList/InfinitePostList";
 
 export type MePayload = {};
 

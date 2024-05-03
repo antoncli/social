@@ -5,15 +5,15 @@ import { MouseEventHandler } from "react";
 
 type Props = {
   children: JSX.Element;
-  headerChildren?: JSX.Element;
+  title?: string;
   onCloseClick?: MouseEventHandler<HTMLButtonElement>;
 };
 
-export default function Board({ children, headerChildren, onCloseClick }: Props) {
+export default function Board({ children, title, onCloseClick }: Props) {
   return (
     <div className={styles.board}>
       <div className={styles.header}>
-        {headerChildren || <span></span>}
+        <h4>{title || ""}</h4>
         <button className={styles.closeButton} onClick={onCloseClick}>
           <FontAwesomeIcon icon={faXmark} className={styles.closeIcon} />
         </button>

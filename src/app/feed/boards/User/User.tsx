@@ -4,7 +4,7 @@ import styles from "@app/feed/boards/User/styles.module.css";
 import { memo } from "react";
 import AddFriendButton from "@app/feed/boards/User/components/AddFriendButton/AddFriendButton";
 import SmallUserCard from "@share/ui/SmallUserCard/SmallUserCard";
-import InfinitePostsList from "@/share/components/InfinitePostsList/InfinitePostsList";
+import InfinitePostsList from "@/share/components/InfinitePostsList/InfinitePostList";
 
 export type UserPayload = {
   name: string;
