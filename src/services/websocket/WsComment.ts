@@ -11,11 +11,13 @@ export default class WsComment extends Evented<Event> {
   constructor(owner: string) {
     super();
     const socket = io(`${process.env.API_URL}/comment`, {
+      path: "/socket.io",
       query: {
-        // token: localStorage.getItem("access_token") || "",
+        token: localStorage.getItem("access_token") || "",
         owner,
       },
       transports: ["websocket"],
+      multiplex: false,
     });
 
     socket.on(CommentEvent.commentAdded, () => this.emit(CommentEvent.commentAdded, undefined));

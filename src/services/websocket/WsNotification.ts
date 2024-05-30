@@ -13,10 +13,12 @@ export default class WsNotification extends Evented<Event> {
   private constructor() {
     super();
     const socket = io(`${process.env.API_URL}/notification`, {
+      path: "/socket.io",
       query: {
         token: localStorage.getItem("access_token") || "",
       },
       transports: ["websocket"],
+      multiplex: false,
     });
 
     socket.on(WebSocketNotification.postAdded, () => this.emit(WebSocketNotification.postAdded, undefined));

@@ -1,12 +1,14 @@
-import { PostArraySchema } from "@/schemas/PostSchema";
-import { postService } from "@/services/postService";
-import InfiniteList from "@/share/components/InfiniteList/InfiniteList";
+import { PostArraySchema } from "@schemas/PostSchema";
+import { postService } from "@services/postService";
+import InfiniteList from "@share/components/InfiniteList/InfiniteList";
 import { memo, useEffect, useState } from "react";
 import InfiniteDataManager from "@share/classes/InfiniteDataManager";
 import { z } from "zod";
 import Post from "@share/components/Post/Post";
 import { Post as TPost } from "@schemas/PostSchema";
 import { PostRowsOptions } from "@share/types/PostRowsOptions";
+import WsNotification from "@services/websocket/WsNotification";
+import { WebSocketNotification } from "@services/enums/WebSocketNotification";
 
 export type Props = { name?: string };
 
@@ -22,7 +24,7 @@ export default memo(function InfinitePostsList({ name }: Props) {
   useEffect(() => {
     const service = getService(name);
     const manager = new InfiniteDataManager<typeof PostArraySchema>({
-      service,
+      addService: service,
       schema: PostArraySchema,
       newDataOnTop: (data) => {
         setData([...data]);
@@ -31,6 +33,9 @@ export default memo(function InfinitePostsList({ name }: Props) {
     });
     manager.fetchEnd();
     setDataManager(manager);
+
+    WsNotification.getInstance().on(WebSocketNotification.postAdded, () => manager.dataAdded());
+    WsNotification.getInstance().on(WebSocketNotification.postDeleted, () => manager.dataDeleted());
   }, [name]);
 
   return (

@@ -1,11 +1,11 @@
 import { WebSocketNotification } from "@/services/enums/WebSocketNotification";
-import WsNotification from "@/services/websocket/WsNotification";
 import { z } from "zod";
 
 const IdSchema = z.array(z.object({ id: z.string() }));
 
 type Context<T extends typeof IdSchema> = {
-  service: (page: number, limit: number) => any;
+  addService: (page: number, limit: number) => any;
+  removeService?: (page: number, limit: number) => any;
   schema: T;
   constantly?:
     | {
@@ -28,11 +28,19 @@ export default class InfiniteDataManager<T extends typeof IdSchema> {
 
   constructor(context: Context<T>) {
     this._context = context;
-    WsNotification.getInstance().on(WebSocketNotification.postAdded, () => {
-      if (!this._newDataFetching) this._newPost();
-    });
-    WsNotification.getInstance().on(WebSocketNotification.postDeleted, () => {});
   }
+
+  dataAdded = () => {
+    if (!this._newDataFetching) this._newData();
+  };
+
+  dataDeleted = async () => {
+    console.log("Data deleted!");
+    if (this._context.removeService) {
+      const data = await this._context.removeService(1, this._data.length);
+      console.log(data);
+    }
+  };
 
   fetchEnd = async () => {
     const page = Math.floor(this._data.length / 20) + 1;
@@ -55,7 +63,7 @@ export default class InfiniteDataManager<T extends typeof IdSchema> {
     this._context.newDataOnEnd?.(this._data);
   };
 
-  private _newPost = async () => {
+  private _newData = async () => {
     this._newDataFetching = true;
     const tempData = [];
     let page = 1;
@@ -82,7 +90,7 @@ export default class InfiniteDataManager<T extends typeof IdSchema> {
   private _fetch = async (page: number, limit: number): Promise<z.infer<T>> => {
     return new Promise(async (resolve, reject) => {
       try {
-        const responce = await this._context.service(page, limit);
+        const responce = await this._context.addService(page, limit);
         const result = this._context.schema.safeParse(responce.data);
         if (result.success) resolve(result.data);
         else reject(result.error);

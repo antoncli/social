@@ -12,8 +12,8 @@ import LikeReaction, { LikeState } from "@share/components/LikeReaction/LikeReac
 import { reactionService } from "@services/reactionService";
 import CommentButton from "@share/ui/CommentButton/CommentButton";
 import CommentForm from "@share/components/CommentForm/CommentForm";
-import { commentService } from "@/services/commentService";
-import InfiniteCommentsList from "../InfiniteCommentsList/InfiniteCommentsList";
+import { commentService } from "@services/commentService";
+import InfiniteCommentsList from "@share/components/InfiniteCommentsList/InfiniteCommentsList";
 
 type Props = {
   data: TPost;
