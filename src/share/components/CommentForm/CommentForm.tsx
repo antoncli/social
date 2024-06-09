@@ -1,9 +1,9 @@
-import AutoResizableTextArea from "@share/ui/AutoResizableTextArea/AutoResizableTextArea";
 import Button from "@share/ui/Button/Button";
 import styles from "@share/components/CommentForm/styles.module.css";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { LeftIconButton } from "@share/ui/LeftIconButton/LeftIconButton";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import AutoResizableTextArea from "@/share/ui/AutoResizableTextArea/AutoResizableTextArea";
 
 type Props = {
   loading?: boolean;
@@ -12,14 +12,8 @@ type Props = {
 };
 
 export default function CommentForm({ loading = false, onSubmit, onCancel }: Props) {
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const [text, setText] = useState<string>("");
-
-  useEffect(() => {
-    if (textAreaRef && textAreaRef.current) {
-      textAreaRef.current.style.height = textAreaRef.current.scrollHeight + "px";
-    }
-  }, []);
 
   function submit(formData: FormData) {
     try {
@@ -32,8 +26,14 @@ export default function CommentForm({ loading = false, onSubmit, onCancel }: Pro
 
   return (
     <div>
-      <form role='form' className={styles.form} action={submit}>
-        <AutoResizableTextArea name='text' placeholder='Comment it!' value={text} onChange={(e) => setText(e.target.value)} />
+      <form role='form' ref={formRef} className={styles.form} action={submit}>
+        <AutoResizableTextArea
+          name='text'
+          placeholder='Comment it!'
+          text={text}
+          onChange={(e) => setText(e.target.value)}
+          onEnterDown={() => formRef.current?.requestSubmit()}
+        />
         <span className={styles.buttons}>
           <Button text='Cancel' onClick={() => onCancel?.()} />
           <LeftIconButton type='submit' icon={faPaperPlane} text='Comment' loading={loading} disabled={text.length === 0} />

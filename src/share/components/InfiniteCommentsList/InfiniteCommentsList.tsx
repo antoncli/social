@@ -18,24 +18,19 @@ export default function InfiniteCommentsList({ owner }: Props) {
   const [dataManager, setDataManager] = useState<InfiniteDataManager<typeof CommentSchemaArray>>();
 
   useEffect(() => {
-    const addService = (page: number, limit: number) => commentService.get(owner, page, limit);
-    const removeService = (page: number, limit: number) => commentService.getIds(owner, page, limit);
+    const service = (page: number, limit: number) => commentService.get(owner, page, limit);
 
     const manager = new InfiniteDataManager<typeof CommentSchemaArray>({
-      addService,
-      removeService,
+      service,
       schema: CommentSchemaArray,
-      newDataOnTop: (data) => {
-        setData([...data]);
-      },
-      newDataOnEnd: (data) => setData([...data]),
+      update: (data) => setData([...data]),
     });
     manager.fetchEnd();
     setDataManager(manager);
 
     const socket = new WsComment(owner);
     socket.on(CommentEvent.commentAdded, () => manager.dataAdded());
-    socket.on(CommentEvent.commentDeleted, () => manager.dataDeleted());
+    socket.on(CommentEvent.commentDeleted, (commentId) => manager.dataDeleted(commentId));
   }, [owner]);
 
   return (

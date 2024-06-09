@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { DropDownRow } from "@share/types/DropDownRow";
 import { commentService } from "@/services/commentService";
 import { getJWTData } from "@/share/helpers/getJWTData";
+import AutoResizableTextArea from "@/share/ui/AutoResizableTextArea/AutoResizableTextArea";
 
 type Props = {
   data: TComment;
@@ -24,13 +25,11 @@ export default function Comment({ data }: Props) {
       rows.push({
         id: "delete",
         text: "Delete",
-        callback: async () => {
-          await commentService.remove(data.owner, data.id);
-        },
+        callback: async () => await commentService.remove(data.owner, data.id),
       });
     }
     setRows(rows);
-  }, []);
+  }, [data.owner, data.id]);
 
   return (
     <article role='comment' className={styles.container}>
@@ -42,12 +41,12 @@ export default function Comment({ data }: Props) {
           </ButtonDropDown>
         ) : null}
       </div>
-      <textarea role='textbox' className={styles.textarea} readOnly={true} value={data.text} />
+      <AutoResizableTextArea text={data.text} readOnly={true} />
       <div role='toolbar' className={styles.toolbar}>
         <span className={styles.reactions}>
           <LikeReaction
-            likeState={false ? LikeState.Liked : LikeState.None}
-            likeCount={0}
+            likeState={data.liked ? LikeState.Liked : LikeState.None}
+            likeCount={data.likeCount}
             onLiked={() => reactionService.like(data.id)}
             onUnlike={() => reactionService.unlike(data.id)}
             onDisliked={() => reactionService.dislike(data.id)}

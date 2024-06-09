@@ -7,6 +7,9 @@ export const CommentSchema = z.object({
   text: z.string(),
   createdAt: z.number(),
   updatedAt: z.number(),
+  likeCount: z.number(),
+  liked: z.boolean(),
+  users: z.array(z.string()),
 });
 
 export const CommentSchemaArray = z.array(CommentSchema);

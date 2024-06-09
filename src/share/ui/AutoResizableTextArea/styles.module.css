@@ -1,12 +1,21 @@
 .textarea {
-  padding: 4px;
-  border: 1px solid transparent;
-  border-radius: 6px;
-  background-color: var(--color-5);
+  padding: 8px 4px;
+  border: none;
+  border-radius: 10px;
   resize: none;
-  overflow-y: hidden;
+  /* text-overflow: ellipsis;
+  white-space: nowrap; */
+  overflow: hidden;
+}
+
+.backgroundReadOnly {
+  background-color: transparent;
+}
+
+.backgroundReadWrite {
+  background-color: var(--color-3);
 }
 
 .textarea:focus {
-  outline: 0;
+  outline: none;
 }

@@ -3,7 +3,7 @@
   flex-direction: column;
   row-gap: 8px;
   padding: 8px 8px 4px 8px;
-  background-color: var(--color-5);
+  background-color: var(--color-2);
   border-radius: 10px;
 }
 
@@ -11,17 +11,6 @@
   flex: 0 1 auto;
   display: flex;
   justify-content: space-between;
-}
-
-.textarea {
-  flex: 1 1 auto;
-  border: none;
-  background-color: transparent;
-  resize: none;
-}
-
-.textarea:focus {
-  outline: none;
 }
 
 .toolbar {

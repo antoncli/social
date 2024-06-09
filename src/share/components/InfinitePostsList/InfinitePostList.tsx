@@ -24,18 +24,15 @@ export default memo(function InfinitePostsList({ name }: Props) {
   useEffect(() => {
     const service = getService(name);
     const manager = new InfiniteDataManager<typeof PostArraySchema>({
-      addService: service,
+      service,
       schema: PostArraySchema,
-      newDataOnTop: (data) => {
-        setData([...data]);
-      },
-      newDataOnEnd: (data) => setData([...data]),
+      update: (data) => setData([...data]),
     });
     manager.fetchEnd();
     setDataManager(manager);
 
     WsNotification.getInstance().on(WebSocketNotification.postAdded, () => manager.dataAdded());
-    WsNotification.getInstance().on(WebSocketNotification.postDeleted, () => manager.dataDeleted());
+    // WsNotification.getInstance().on(WebSocketNotification.postDeleted, () => manager.dataDeleted());
   }, [name]);
 
   return (
