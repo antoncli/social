@@ -1,0 +1,15 @@
+.comment {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 6px
+}
+
+.text {
+  display: block;
+  max-width: 100%;
+  font-size: smaller;
+  white-space: pre-wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { DropDownRow } from "@share/types/DropDownRow";
 import { commentService } from "@/services/commentService";
 import { getJWTData } from "@/share/helpers/getJWTData";
-import AutoResizableTextArea from "@/share/ui/AutoResizableTextArea/AutoResizableTextArea";
+import ReadMore from "@/share/components/ReadMore/ReadMore";
 
 type Props = {
   data: TComment;
@@ -41,7 +41,7 @@ export default function Comment({ data }: Props) {
           </ButtonDropDown>
         ) : null}
       </div>
-      <AutoResizableTextArea text={data.text} readOnly={true} />
+      <ReadMore text={data.text} />
       <div role='toolbar' className={styles.toolbar}>
         <span className={styles.reactions}>
           <LikeReaction
