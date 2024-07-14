@@ -5,6 +5,7 @@ import { z } from "zod";
 
 type Event = {
   [CommentEvent.commentAdded]: string;
+  [CommentEvent.commentEdited]: string;
   [CommentEvent.commentDeleted]: string;
 };
 

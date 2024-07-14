@@ -1,6 +1,7 @@
 import {
   ChangeEvent,
   ChangeEventHandler,
+  FocusEvent,
   KeyboardEvent,
   KeyboardEventHandler,
   useCallback,
@@ -14,8 +15,8 @@ type Props = {
   text: string;
   placeholder?: string;
   name?: string;
-  maxHeight?: number;
   readOnly?: boolean;
+  scrollIntoView?: boolean;
   onChange?: ChangeEventHandler<HTMLTextAreaElement>;
   onEnterDown?: KeyboardEventHandler<HTMLTextAreaElement>;
 };
@@ -24,35 +25,37 @@ export default function AutoResizableTextArea({
   text = "",
   name = "",
   placeholder = "",
-  maxHeight = 100,
   readOnly = false,
+  scrollIntoView = false,
   onChange = () => {},
   onEnterDown,
 }: Props) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [readMore, setReadMore] = useState<boolean>(false);
+  const focusedRef = useRef<boolean>(false);
+  const [value, setValue] = useState<string>(text);
 
   useEffect(() => {
     if (!textareaRef.current) return;
-    textareaRef.current.style.height = "1px";
-    const height = textareaRef.current.scrollHeight;
-
-    if (height > maxHeight) {
-      textareaRef.current.style.height = maxHeight + "px";
-      textareaRef.current.style.textOverflow = "ellipsis";
-      textareaRef.current.style.whiteSpace = "nowrap";
-      setReadMore(true);
-      return;
-    }
-
     textareaRef.current.style.height = textareaRef.current.scrollHeight + "px";
-  }, [textareaRef.current, text]);
+  }, [textareaRef.current, value]);
 
-  const handleChange = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
-    e.target.style.height = "1px";
-    e.target.style.height = e.target.scrollHeight + "px";
-    onChange?.(e);
-  }, []);
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLTextAreaElement>) => {
+      e.target.style.height = e.target.scrollHeight + "px";
+      onChange?.(e);
+      setValue(e.target.value);
+    },
+    [onChange]
+  );
+
+  const moveCaretAtEnd = (e: FocusEvent<HTMLTextAreaElement, Element>) => {
+    if (focusedRef.current) return;
+    const temp_value = e.target.value;
+    e.target.value = "";
+    e.target.value = temp_value;
+    if (scrollIntoView) e.target.scrollIntoView({ behavior: "smooth" });
+    focusedRef.current = true;
+  };
 
   const handleKeyDown = useCallback((e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (name === "") return;
@@ -63,18 +66,17 @@ export default function AutoResizableTextArea({
   }, []);
 
   return (
-    <span>
-      <textarea
-        name={name}
-        placeholder={placeholder}
-        ref={textareaRef}
-        className={`${styles.textarea} ${readOnly ? styles.backgroundReadOnly : styles.backgroundReadWrite}`}
-        value={text}
-        readOnly={readOnly}
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-      />
-      {readMore ? "ReadMore" : null}
-    </span>
+    <textarea
+      name={name}
+      placeholder={placeholder}
+      ref={textareaRef}
+      className={`${styles.textarea} ${readOnly ? styles.backgroundReadOnly : styles.backgroundReadWrite}`}
+      value={value}
+      readOnly={readOnly}
+      onChange={handleChange}
+      onKeyDown={handleKeyDown}
+      autoFocus={true}
+      onFocus={moveCaretAtEnd}
+    />
   );
 }

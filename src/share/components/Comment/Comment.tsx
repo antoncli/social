@@ -10,7 +10,9 @@ import { useEffect, useState } from "react";
 import { DropDownRow } from "@share/types/DropDownRow";
 import { commentService } from "@/services/commentService";
 import { getJWTData } from "@/share/helpers/getJWTData";
-import ReadMore from "@/share/components/ReadMore/ReadMore";
+import Textbox from "@/share/ui/Textbox/Textbox";
+import TextEditor from "../TextEditor/TextEditor";
+import { boolean } from "zod";
 
 type Props = {
   data: TComment;
@@ -18,18 +20,33 @@ type Props = {
 
 export default function Comment({ data }: Props) {
   const [rows, setRows] = useState<DropDownRow[]>([]);
+  const [editMode, setEditMode] = useState<boolean>(false);
 
   useEffect(() => {
     const rows: DropDownRow[] = [];
     if (getJWTData().name === data.user) {
-      rows.push({
-        id: "delete",
-        text: "Delete",
-        callback: async () => await commentService.remove(data.owner, data.id),
-      });
+      rows.push(
+        {
+          id: "edit",
+          text: "Edit",
+          callback: () => setEditMode(!editMode),
+        },
+        {
+          id: "delete",
+          text: "Delete",
+          callback: () => commentService.remove(data.owner, data.id),
+        }
+      );
     }
     setRows(rows);
-  }, [data.owner, data.id]);
+  }, [data.user, data.owner, data.id, editMode]);
+
+  const handleSubmit = async (text: string) => {
+    await commentService.edit(data.owner, data.id, text);
+    setEditMode(false);
+  };
+
+  const handleCancel = () => setEditMode(false);
 
   return (
     <article role='comment' className={styles.container}>
@@ -41,7 +58,11 @@ export default function Comment({ data }: Props) {
           </ButtonDropDown>
         ) : null}
       </div>
-      <ReadMore text={data.text} />
+      {editMode ? (
+        <TextEditor text={data.text} onSubmit={handleSubmit} onCancel={handleCancel} />
+      ) : (
+        <Textbox text={data.text} maxHeight={100} />
+      )}
       <div role='toolbar' className={styles.toolbar}>
         <span className={styles.reactions}>
           <LikeReaction

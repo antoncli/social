@@ -30,6 +30,7 @@ export default function InfiniteCommentsList({ owner }: Props) {
 
     const socket = new WsComment(owner);
     socket.on(CommentEvent.commentAdded, () => manager.dataAdded());
+    socket.on(CommentEvent.commentEdited, (commentId) => console.log(commentId));
     socket.on(CommentEvent.commentDeleted, (commentId) => manager.dataDeleted(commentId));
   }, [owner]);
 

@@ -7,12 +7,12 @@ import Button from "@/share/ui/Button/Button";
 import Link from "@/share/ui/Link/Link";
 import { useRouter } from "next/navigation";
 import { authService } from "@/services/authService";
-import { SignIn } from "@/services/interfaces/signin";
+import { SignIn as ISignIn } from "@/services/interfaces/signin";
 import { handlePromiseError } from "@/share/helpers/handlePromiesError";
 
 export default function SignIn() {
   const router = useRouter();
-  const [user, setUser] = React.useState<SignIn>({
+  const [user, setUser] = React.useState<ISignIn>({
     email: "",
     password: "",
   });

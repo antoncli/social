@@ -7,7 +7,7 @@ type Props = {
   maxHeight?: number;
 };
 
-export default function ReadMore({ text, maxHeight = 100 }: Props) {
+export default function Textbox({ text, maxHeight = Infinity }: Props) {
   const textSpanRef = useRef<HTMLSpanElement>(null);
   const [readMore, setReadMore] = useState<boolean>(false);
   const [showAll, setShowAll] = useState<boolean>(false);
