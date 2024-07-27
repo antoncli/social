@@ -1,7 +1,7 @@
 import { CommentRowsOptions } from "@share/types/CommentRowsOptions";
 import InfiniteList from "@share/components/InfiniteList/InfiniteList";
 import Comment from "@share/components/Comment/Comment";
-import { Comment as TComment, CommentSchemaArray } from "@schemas/CommentSchema";
+import { Comment as TComment, CommentSchemaArray, CommentSchema } from "@schemas/CommentSchema";
 import { useEffect, useState } from "react";
 import InfiniteDataManager from "@share/classes/InfiniteDataManager";
 import { commentService } from "@services/commentService";
@@ -18,7 +18,7 @@ export default function InfiniteCommentsList({ owner }: Props) {
   const [dataManager, setDataManager] = useState<InfiniteDataManager<typeof CommentSchemaArray>>();
 
   useEffect(() => {
-    const service = (page: number, limit: number) => commentService.get(owner, page, limit);
+    const service = (page: number, limit: number) => commentService.page(owner, page, limit);
 
     const manager = new InfiniteDataManager<typeof CommentSchemaArray>({
       service,
@@ -30,7 +30,11 @@ export default function InfiniteCommentsList({ owner }: Props) {
 
     const socket = new WsComment(owner);
     socket.on(CommentEvent.commentAdded, () => manager.dataAdded());
-    socket.on(CommentEvent.commentEdited, (commentId) => console.log(commentId));
+    socket.on(CommentEvent.commentEdited, async (commentId) => {
+      const comment = (await commentService.get(owner, commentId)).data;
+      const result = CommentSchema.safeParse(comment);
+      if (result.success) manager.dataEdited([result.data]);
+    });
     socket.on(CommentEvent.commentDeleted, (commentId) => manager.dataDeleted(commentId));
   }, [owner]);
 

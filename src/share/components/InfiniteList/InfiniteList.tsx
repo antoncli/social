@@ -2,6 +2,9 @@ import styles from "@share/components/InfiniteList/styles.module.css";
 import { Virtuoso, VirtuosoHandle } from "react-virtuoso";
 import { ComponentType, useEffect, useRef, useState } from "react";
 import ScrollToButton from "@share/ui/ScrollToButton/ScrollToButton";
+import AutoSizer from "react-virtualized-auto-sizer";
+import { FixedSizeList } from "react-window";
+import InfiniteLoader from "react-window-infinite-loader";
 
 type Props<T, K> = {
   data: T[];
@@ -43,18 +46,51 @@ export default function InfiniteList<T extends { id: string }, K>(props: Props<T
         </div>
       ) : null}
       {props.data.length ? (
-        <Virtuoso
-          ref={virtuoso}
-          totalCount={props.data.length}
-          endReached={props.onEndReached}
-          atTopStateChange={setAtTop}
-          itemContent={(index) => (
-            <div style={{ marginBottom: "8px" }}>
-              <props.component data={props.data[index]} rowsOptions={props.rowsOptions} />
-            </div>
+        <AutoSizer>
+          {({ height, width }) => (
+            <InfiniteLoader
+              isItemLoaded={() => false}
+              itemCount={props.data.length}
+              loadMoreItems={(startIndex, stopIndex) => {
+                console.log(stopIndex);
+                props.onEndReached?.(stopIndex);
+              }}
+            >
+              {({ onItemsRendered, ref }) => (
+                <FixedSizeList
+                  height={height}
+                  width={width}
+                  itemCount={props.data.length}
+                  itemSize={122}
+                  onItemsRendered={onItemsRendered}
+                  ref={ref}
+                  {...props}
+                >
+                  {({ index }) => {
+                    return (
+                      <div style={{ marginBottom: "8px" }}>
+                        <props.component data={props.data[index]} rowsOptions={props.rowsOptions} />
+                      </div>
+                    );
+                  }}
+                </FixedSizeList>
+              )}
+            </InfiniteLoader>
           )}
-        />
-      ) : null}
+        </AutoSizer>
+      ) : // <Virtuoso
+      //   role='TEST'
+      //   ref={virtuoso}
+      //   totalCount={props.data.length}
+      //   endReached={props.onEndReached}
+      //   atTopStateChange={setAtTop}
+      //   itemContent={(index) => (
+      //     <div style={{ marginBottom: "8px" }}>
+      //       <props.component data={props.data[index]} rowsOptions={props.rowsOptions} />
+      //     </div>
+      //   )}
+      // />
+      null}
     </div>
   );
 }

@@ -26,7 +26,7 @@ export default function TextEditor({ text, onCancel, onSubmit }: Props) {
 
   return (
     <form action={handleSubmit} className={styles.form}>
-      <AutoResizableTextArea name='comment' text={text} scrollIntoView={true} />
+      <AutoResizableTextArea name='comment' text={text} scrollToIfNotVisible={true} />
       <div className={styles.bottom}>
         <Button type='submit' text='Cancel' onClick={onCancel} />
         <LeftIconButton type='submit' icon={faPaperPlane} text='Edit' loading={submitting} disabled={text.length === 0} />

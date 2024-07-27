@@ -10,8 +10,10 @@ import { parseJwt } from "@share/helpers/parseJwt";
 import { addComposePostBoard, addMeBoard } from "@store/features/boardsSlice/boardSlice";
 import BoardId from "@app/feed/classes/BoardId";
 import { useAppDispatch } from "@store/hooks";
-import RoundIconButton from "@/share/ui/RoundIconButton/RoundIconButton";
+import RoundIconButton from "@share/ui/RoundIconButton/RoundIconButton";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons/faPenToSquare";
+import { useEffect, useState } from "react";
+import { JwtAccess } from "@share/interfaces/JwtAccess";
 
 type Props = {
   pageName: string;
@@ -21,8 +23,11 @@ type Props = {
 export default function Header({ pageName, centerChild }: Props) {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const [jwtAccess, setJwtAccess] = useState<JwtAccess | undefined>();
 
-  const jwtAccess = parseJwt(localStorage.getItem("access_token")!);
+  useEffect(() => {
+    setJwtAccess(parseJwt(localStorage.getItem("access_token")!));
+  }, []);
 
   const signOut = async () => {
     handlePromiseError(authService.signout, [], (response) => {
@@ -31,15 +36,17 @@ export default function Header({ pageName, centerChild }: Props) {
   };
 
   const handlePostWriteClick = () => {
-    dispatch(addComposePostBoard({ id: BoardId.id, props: { name: jwtAccess.name } }));
+    if (jwtAccess) dispatch(addComposePostBoard({ id: BoardId.id, props: { name: jwtAccess.name } }));
   };
 
   const handleUserClick = () => {
-    dispatch(addMeBoard({ id: BoardId.id, props: { name: jwtAccess.name } }));
+    if (jwtAccess) dispatch(addMeBoard({ id: BoardId.id, props: { name: jwtAccess.name } }));
   };
 
+  if (!jwtAccess) return null;
+
   return (
-    <div className={`${styles.container} ${styles.shadow}`}>
+    <header role='banner' className={`${styles.container} ${styles.shadow}`}>
       <div className={styles.left}>
         <h2>{pageName}</h2>
       </div>
@@ -49,6 +56,6 @@ export default function Header({ pageName, centerChild }: Props) {
         <UserIconButton name={jwtAccess.name} onClick={handleUserClick} />
         <Button text='Sign out' border={true} onClick={signOut} />
       </div>
-    </div>
+    </header>
   );
 }

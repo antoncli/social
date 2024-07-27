@@ -5,6 +5,7 @@ export const commentService = {
   edit,
   remove,
   get,
+  page,
 };
 
 function add(owner: string, text: string) {
@@ -19,6 +20,10 @@ function remove(owner: string, commentId: string) {
   return api.post("/comment/delete", { owner, commentId });
 }
 
-function get(owner: string, page: number, limit: number) {
-  return api.get("/comment/get", { params: { owner, page, limit } });
+function get(owner: string, commentId: string) {
+  return api.get("/comment/get", { params: { owner, commentId } });
+}
+
+function page(owner: string, page: number, limit: number) {
+  return api.get("/comment/page", { params: { owner, page, limit } });
 }

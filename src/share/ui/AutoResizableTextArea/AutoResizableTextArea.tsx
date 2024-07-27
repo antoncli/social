@@ -10,13 +10,14 @@ import {
   useState,
 } from "react";
 import styles from "./styles.module.css";
+import { isElementFullyVisible } from "@/share/helpers/isElementFullyVisible";
 
 type Props = {
   text: string;
   placeholder?: string;
   name?: string;
   readOnly?: boolean;
-  scrollIntoView?: boolean;
+  scrollToIfNotVisible?: boolean;
   onChange?: ChangeEventHandler<HTMLTextAreaElement>;
   onEnterDown?: KeyboardEventHandler<HTMLTextAreaElement>;
 };
@@ -26,7 +27,7 @@ export default function AutoResizableTextArea({
   name = "",
   placeholder = "",
   readOnly = false,
-  scrollIntoView = false,
+  scrollToIfNotVisible = false,
   onChange = () => {},
   onEnterDown,
 }: Props) {
@@ -37,6 +38,10 @@ export default function AutoResizableTextArea({
   useEffect(() => {
     if (!textareaRef.current) return;
     textareaRef.current.style.height = textareaRef.current.scrollHeight + "px";
+    console.log(isElementFullyVisible(textareaRef.current));
+    if (!isElementFullyVisible(textareaRef.current) && scrollToIfNotVisible) {
+      // textareaRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   }, [textareaRef.current, value]);
 
   const handleChange = useCallback(
@@ -48,12 +53,11 @@ export default function AutoResizableTextArea({
     [onChange]
   );
 
-  const moveCaretAtEnd = (e: FocusEvent<HTMLTextAreaElement, Element>) => {
+  const handleFocus = (e: FocusEvent<HTMLTextAreaElement, Element>) => {
     if (focusedRef.current) return;
     const temp_value = e.target.value;
     e.target.value = "";
     e.target.value = temp_value;
-    if (scrollIntoView) e.target.scrollIntoView({ behavior: "smooth" });
     focusedRef.current = true;
   };
 
@@ -76,7 +80,7 @@ export default function AutoResizableTextArea({
       onChange={handleChange}
       onKeyDown={handleKeyDown}
       autoFocus={true}
-      onFocus={moveCaretAtEnd}
+      onFocus={handleFocus}
     />
   );
 }

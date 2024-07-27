@@ -1,4 +1,4 @@
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import Evented from "@share/classes/Evented";
 import { CommentEvent } from "@services/enums/CommentEvent";
 import { z } from "zod";
@@ -22,14 +22,7 @@ export default class WsComment extends Evented<Event> {
       multiplex: false,
     });
 
-    socket.on(CommentEvent.commentAdded, (payload) => {
-      if (!z.string().safeParse(payload).success) return;
-      this.emit(CommentEvent.commentAdded, payload);
-    });
-    socket.on(CommentEvent.commentDeleted, (payload) => {
-      if (!z.string().safeParse(payload).success) return;
-      this.emit(CommentEvent.commentDeleted, payload);
-    });
+    this._subscribeEvents(socket);
 
     socket.on("connect_error", (err) => {
       console.log(err.message);
@@ -37,6 +30,23 @@ export default class WsComment extends Evented<Event> {
 
     window.addEventListener("beforeunload", () => {
       socket.close();
+    });
+  }
+
+  private _subscribeEvents(socket: Socket) {
+    socket.on(CommentEvent.commentAdded, (payload) => {
+      if (!z.string().safeParse(payload).success) return;
+      this.emit(CommentEvent.commentAdded, payload);
+    });
+
+    socket.on(CommentEvent.commentEdited, (payload) => {
+      if (!z.string().safeParse(payload).success) return;
+      this.emit(CommentEvent.commentEdited, payload);
+    });
+
+    socket.on(CommentEvent.commentDeleted, (payload) => {
+      if (!z.string().safeParse(payload).success) return;
+      this.emit(CommentEvent.commentDeleted, payload);
     });
   }
 }

@@ -32,8 +32,18 @@ export default class InfiniteDataManager<T extends typeof IdSchema> {
     if (!this._newDataFetching) this._newData();
   };
 
+  dataEdited = (data: z.infer<T>) => {
+    data.forEach((element) => {
+      const index = this._data.findIndex((entity) => entity.id === element.id);
+      if (index === -1) return;
+      this._data[index] = element;
+    });
+    this._context.update?.(this._data);
+  };
+
   dataDeleted = async (id: string) => {
     const index = this._data.findIndex((entity) => entity.id === id);
+    if (index === -1) return;
     this._data.splice(index, 1);
     this._context.update?.(this._data);
   };
