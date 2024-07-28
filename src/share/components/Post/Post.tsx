@@ -11,9 +11,9 @@ import { PostRowsOptions } from "@share/types/PostRowsOptions";
 import LikeReaction, { LikeState } from "@share/components/LikeReaction/LikeReaction";
 import { reactionService } from "@services/reactionService";
 import CommentButton from "@share/ui/CommentButton/CommentButton";
-import CommentForm from "@share/components/CommentForm/CommentForm";
 import { commentService } from "@services/commentService";
 import InfiniteCommentsList from "@share/components/InfiniteCommentsList/InfiniteCommentsList";
+import TextEditor from "../TextEditor/TextEditor";
 
 type Props = {
   data: TPost;
@@ -23,7 +23,6 @@ type Props = {
 export default memo(function Post({ data, rowsOptions = { delete: true } }: Props) {
   const [rows, setRows] = useState<DropDownRow[]>([]);
   const [showComments, setShowComments] = useState<boolean>(false);
-  const [isCommentSending, setIsCommentSending] = useState<boolean>(false);
 
   useEffect(() => {
     const rows: DropDownRow[] = [];
@@ -39,11 +38,7 @@ export default memo(function Post({ data, rowsOptions = { delete: true } }: Prop
     setRows(rows);
   }, []);
 
-  const hundleCommentSubmit = async (text: string) => {
-    setIsCommentSending(true);
-    await commentService.add(data.id, text);
-    setIsCommentSending(false);
-  };
+  const hundleCommentSubmit = async (text: string) => await commentService.add(data.id, text);
 
   return (
     <article role='article' className={styles.container}>
@@ -71,7 +66,13 @@ export default memo(function Post({ data, rowsOptions = { delete: true } }: Prop
       </div>
       {showComments ? (
         <>
-          <CommentForm loading={isCommentSending} onSubmit={hundleCommentSubmit} onCancel={() => setShowComments(false)} />
+          <TextEditor
+            text={""}
+            placeholder={"Comment it!"}
+            onSubmitButtonText='Comment'
+            onSubmit={hundleCommentSubmit}
+            onCancel={() => setShowComments(false)}
+          />
           <div className={styles.commentsList}>
             <InfiniteCommentsList owner={data.id} />
           </div>

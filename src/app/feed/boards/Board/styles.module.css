@@ -3,7 +3,7 @@
   display: grid;
   grid-template-rows: [header-start] 40px [header-end] calc(100% - var(--board-header-height)) [body];
   flex: none;
-  width: 320px;
+  width: 420px;
   height: 100%;
   border-radius: 8px;
   background-color: var(--color-5);

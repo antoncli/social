@@ -10,7 +10,6 @@ import {
   useState,
 } from "react";
 import styles from "./styles.module.css";
-import { isElementFullyVisible } from "@/share/helpers/isElementFullyVisible";
 
 type Props = {
   text: string;
@@ -27,7 +26,6 @@ export default function AutoResizableTextArea({
   name = "",
   placeholder = "",
   readOnly = false,
-  scrollToIfNotVisible = false,
   onChange = () => {},
   onEnterDown,
 }: Props) {
@@ -35,13 +33,11 @@ export default function AutoResizableTextArea({
   const focusedRef = useRef<boolean>(false);
   const [value, setValue] = useState<string>(text);
 
+  useEffect(() => setValue(text), [text]);
+
   useEffect(() => {
     if (!textareaRef.current) return;
     textareaRef.current.style.height = textareaRef.current.scrollHeight + "px";
-    console.log(isElementFullyVisible(textareaRef.current));
-    if (!isElementFullyVisible(textareaRef.current) && scrollToIfNotVisible) {
-      // textareaRef.current.scrollIntoView({ behavior: "smooth" });
-    }
   }, [textareaRef.current, value]);
 
   const handleChange = useCallback(

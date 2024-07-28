@@ -7,29 +7,45 @@ import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
   text: string;
-  onCancel?: () => void;
-  onSubmit?: (text: string) => Promise<void>;
+  placeholder?: string;
+  onSubmitButtonText?: string;
+  onCancel?: () => unknown;
+  onSubmit?: (text: string) => Promise<unknown>;
 };
 
-export default function TextEditor({ text, onCancel, onSubmit }: Props) {
+export default function TextEditor({ text, placeholder, onSubmitButtonText = "Edit", onCancel, onSubmit }: Props) {
   const [submitting, setSubmitting] = useState<boolean>(false);
+  const [value, setValue] = useState<string>(text);
 
   const handleSubmit = async (formData: FormData) => {
     if (!onSubmit) return;
-    const text = formData.get("comment");
+    const text = formData.get("text");
     if (text != null) {
       setSubmitting(true);
       await onSubmit(text.toString());
       setSubmitting(false);
+      setValue("");
     }
   };
 
   return (
     <form action={handleSubmit} className={styles.form}>
-      <AutoResizableTextArea name='comment' text={text} scrollToIfNotVisible={true} />
+      <AutoResizableTextArea
+        name='text'
+        text={value}
+        placeholder={placeholder}
+        scrollToIfNotVisible={true}
+        onChange={(e) => setValue(e.target.value)}
+      />
       <div className={styles.bottom}>
-        <Button type='submit' text='Cancel' onClick={onCancel} />
-        <LeftIconButton type='submit' icon={faPaperPlane} text='Edit' loading={submitting} disabled={text.length === 0} />
+        <Button text='Cancel' onClick={onCancel} />
+        <LeftIconButton
+          type='submit'
+          icon={faPaperPlane}
+          text={onSubmitButtonText}
+          loading={submitting}
+          disabled={value.length === 0}
+        />
       </div>
     </form>
   );

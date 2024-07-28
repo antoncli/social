@@ -12,7 +12,6 @@ import { commentService } from "@/services/commentService";
 import { getJWTData } from "@/share/helpers/getJWTData";
 import Textbox from "@/share/ui/Textbox/Textbox";
 import TextEditor from "../TextEditor/TextEditor";
-import { boolean } from "zod";
 
 type Props = {
   data: TComment;
@@ -25,18 +24,20 @@ export default function Comment({ data }: Props) {
   useEffect(() => {
     const rows: DropDownRow[] = [];
     if (getJWTData().name === data.user) {
-      rows.push(
-        {
+      const oneHourAgo = new Date(Date.now() - parseInt(process.env.NEXT_PUBLIC_COMMENT_EDIT_TIMEOUT as string) * 60 * 1000);
+
+      if (data.createdAt > oneHourAgo.getTime()) {
+        rows.push({
           id: "edit",
           text: "Edit",
           callback: () => setEditMode(!editMode),
-        },
-        {
-          id: "delete",
-          text: "Delete",
-          callback: () => commentService.remove(data.owner, data.id),
-        }
-      );
+        });
+      }
+      rows.push({
+        id: "delete",
+        text: "Delete",
+        callback: () => commentService.remove(data.owner, data.id),
+      });
     }
     setRows(rows);
   }, [data.user, data.owner, data.id, editMode]);
