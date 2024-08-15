@@ -7,13 +7,15 @@ import { handlePromiseError } from "@share/helpers/handlePromiesError";
 import { useRouter } from "next/navigation";
 import UserIconButton from "@share/ui/UserIconButton/UserIconButton";
 import { parseJwt } from "@share/helpers/parseJwt";
-import { addComposePostBoard, addMeBoard } from "@store/features/boardsSlice/boardSlice";
 import BoardId from "@app/feed/classes/BoardId";
 import { useAppDispatch } from "@store/hooks";
 import RoundIconButton from "@share/ui/RoundIconButton/RoundIconButton";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons/faPenToSquare";
 import { useEffect, useState } from "react";
 import { JwtAccess } from "@share/interfaces/JwtAccess";
+import { addBoard } from "@/store/features/boardsSlice/boardSlice";
+import { BoardName } from "@/app/feed/enums/BoardName";
+import BoardsFactory from "@/app/feed/classes/BoardsFactory";
 
 type Props = {
   pageName: string;
@@ -36,11 +38,11 @@ export default function Header({ pageName, centerChild }: Props) {
   };
 
   const handlePostWriteClick = () => {
-    if (jwtAccess) dispatch(addComposePostBoard({ id: BoardId.id, props: { name: jwtAccess.name } }));
+    if (jwtAccess) dispatch(addBoard(BoardsFactory.get(BoardName.composePost, { name: jwtAccess.name })));
   };
 
   const handleUserClick = () => {
-    if (jwtAccess) dispatch(addMeBoard({ id: BoardId.id, props: { name: jwtAccess.name } }));
+    if (jwtAccess) dispatch(addBoard(BoardsFactory.get(BoardName.me, { name: jwtAccess.name })));
   };
 
   if (!jwtAccess) return null;

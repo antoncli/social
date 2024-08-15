@@ -6,15 +6,16 @@ import UserCard from "@/share/ui/UserCard/UserCard";
 import { memo, useEffect, useRef, useState } from "react";
 import styles from "@/app/feed/boards/People/styles.module.css";
 import { useAppDispatch } from "@/store/hooks";
-import { addUserBoard } from "@/store/features/boardsSlice/boardSlice";
-import BoardId from "@/app/feed/classes/BoardId";
+import { addBoard } from "@/store/features/boardsSlice/boardSlice";
 import { User } from "@/schemas/UserSchema";
+import { BoardName } from "../../enums/BoardName";
+import BoardsFactory from "../../classes/BoardsFactory";
 
 export type PeoplePayload = {
   input: string;
 };
 
-type Props = PeoplePayload;
+export type Props = PeoplePayload;
 
 export default memo(function People({ input }: Props) {
   const dispatch = useAppDispatch();
@@ -42,7 +43,7 @@ export default memo(function People({ input }: Props) {
   };
 
   const onUserClick = (user: User) => {
-    dispatch(addUserBoard({ id: BoardId.id, props: { name: user.name } }));
+    dispatch(addBoard(BoardsFactory.get(BoardName.user, { name: user.name })));
   };
 
   return (

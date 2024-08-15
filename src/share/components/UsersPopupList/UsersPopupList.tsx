@@ -1,11 +1,13 @@
 import BoardId from "@/app/feed/classes/BoardId";
-import { addUserBoard } from "@/store/features/boardsSlice/boardSlice";
 import { useAppDispatch } from "@/store/hooks";
 import { User } from "@/schemas/UserSchema";
 import { TSafeUserSchema } from "@/schemas/safe/SafeUserSchema";
 import styles from "@/share/components/UsersPopupList/styles.module.css";
 import UserCard from "@/share/ui/UserCard/UserCard";
 import { LegacyRef, MouseEventHandler } from "react";
+import BoardsFactory from "@/app/feed/classes/BoardsFactory";
+import { BoardName } from "@/app/feed/enums/BoardName";
+import { addBoard } from "@/store/features/boardsSlice/boardSlice";
 
 type Props = {
   users: TSafeUserSchema[];
@@ -19,7 +21,7 @@ export default function UsersPopupList({ users, width = "20vw", maxHeight, inner
   const dispatch = useAppDispatch();
 
   const handleUserClick = (user: User) => {
-    dispatch(addUserBoard({ id: BoardId.id, props: { name: user.name } }));
+    dispatch(addBoard(BoardsFactory.get(BoardName.user, { name: user.name })));
   };
 
   return (

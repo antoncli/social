@@ -4,9 +4,9 @@ import { LeftIconButton } from "@/share/ui/LeftIconButton/LeftIconButton";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons/faPaperPlane";
 import { postService } from "@/services/postService";
 
-export type ComposePostPayload = {};
+export type Props = {};
 
-export default memo(function ComposePost({}: ComposePostPayload) {
+export default memo(function ComposePost() {
   const [text, setText] = useState("");
   const [wait, setWait] = useState(false);
 

@@ -7,8 +7,10 @@ import { useEffect, useRef, useState } from "react";
 import UsersFinder from "@/share/classes/UserFinder";
 import { TSafeUserSchemaArray } from "@/schemas/safe/SafeUserSchema";
 import { useAppDispatch } from "@/store/hooks";
-import { addFriendsBoard } from "@/store/features/boardsSlice/boardSlice";
 import BoardId from "@/app/feed/classes/BoardId";
+import { addBoard } from "@/store/features/boardsSlice/boardSlice";
+import BoardsFactory from "@/app/feed/classes/BoardsFactory";
+import { BoardName } from "@/app/feed/enums/BoardName";
 
 export default function UsersDropDown() {
   const dispatch = useAppDispatch();
@@ -32,7 +34,7 @@ export default function UsersDropDown() {
   };
 
   const onShowAllClick = (input: string) => {
-    dispatch(addFriendsBoard({ id: BoardId.id, props: { input } }));
+    dispatch(addBoard(BoardsFactory.get(BoardName.people, { input })));
   };
 
   if (usersFinder == undefined) return;

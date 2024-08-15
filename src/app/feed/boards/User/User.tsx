@@ -6,11 +6,11 @@ import AddFriendButton from "@app/feed/boards/User/components/AddFriendButton/Ad
 import SmallUserCard from "@share/ui/SmallUserCard/SmallUserCard";
 import InfinitePostsList from "@/share/components/InfinitePostsList/InfinitePostList";
 
-export type UserPayload = {
+export type Props = {
   name: string;
 };
 
-export default memo(function User({ name }: UserPayload) {
+export default memo(function User({ name }: Props) {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
